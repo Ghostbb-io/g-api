@@ -144,7 +144,7 @@ make swag
   
 system為例  
 `system/enter.go`
-```
+```go
 func New() []any {
 	err := global.GB_DB.AutoMigrate(
 		// 自動建立表
@@ -180,7 +180,7 @@ func All() [][]any {
   
 base.go為例  
 `api/v1/base.go`
-```
+```go
 type BaseApi struct {
 	service.Base
 }
@@ -224,7 +224,7 @@ func (b *BaseApi) login(c *gin.Context) {
   
 base.go為例  
 `service/base.go`
-```
+```go
 var BaseService Base = new(base)
 
 type Base interface {
@@ -244,7 +244,7 @@ func (base) Login(in model.LoginRequest) (model.LoginResponse, error) {
 
 ## 7. global
 `pkg/global/global.go`
-```
+```go
 var (
 	GB_DB     *gorm.DB  
 	GB_DBS    map[string]*gorm.DB
@@ -255,6 +255,13 @@ var (
 	GB_SF     = &singleflight.Group{}
 )
 ```
-```
+```go
 global.GB_DB.First(&user, "username = ?", username)
 ```
+
+## 8. pkg文檔
+- [ginx](./pkg/ginx/README.md)：gin擴展，包裝常用函數
+- [gormx](./pkg/gormx/README.md)：gorm擴展，整合zap，實現[cache](./pkg/gormx/gorm-cache/README.md)(緩存)
+- [jwtx](./pkg/jwtx/README.md)：jwt擴展，包裝常用函數
+- [redisx](./pkg/redisx/README.md)：redis擴展，包裝常用函數
+- [casbinx](./pkg/casbinx/README.md)：casbin擴展，api權限控管
