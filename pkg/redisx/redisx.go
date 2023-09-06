@@ -60,6 +60,11 @@ func (r *Redis) HashDel(hk, key string) error {
 	return r.client.HDel(context.TODO(), hk, key).Err()
 }
 
+// Exists exist key
+func (r *Redis) Exists(key string) (int64, error) {
+	return r.client.Exists(context.TODO(), key).Result()
+}
+
 // Increase redis.Incr
 func (r *Redis) Increase(key string) error {
 	return r.client.Incr(context.TODO(), key).Err()
@@ -72,6 +77,10 @@ func (r *Redis) Decrease(key string) error {
 // Expire Set ttl
 func (r *Redis) Expire(key string, dur time.Duration) error {
 	return r.client.Expire(context.TODO(), key, dur).Err()
+}
+
+func (r *Redis) TxPipeline() redis.Pipeliner {
+	return r.client.TxPipeline()
 }
 
 // GetClient 暴露原生client

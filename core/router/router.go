@@ -22,6 +22,10 @@ func Init() {
 		global.GB_LOG.Info("[GIN] Use middleware zap")
 	}
 
+	// 限流
+	engine.Use(middleware.DefaultLimit())
+	global.GB_LOG.Info("[GIN] Use middleware limit-ip")
+
 	// 註冊 Swagger
 	engine.GET(global.GB_CONFIG.System.RouterPrefix+"/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 

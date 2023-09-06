@@ -2,6 +2,8 @@ system:
   port: 9000
   https: false
   router-prefix: /api
+  limit-time-ip: 3600 #單位:秒
+  limit-count-ip: 15000 #單位:次
 gin:
   log-zap: true
 gorm:
