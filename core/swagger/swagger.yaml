@@ -1,0 +1,427 @@
+basePath: /api
+definitions:
+  model.ApiRequest:
+    properties:
+      method:
+        type: string
+      path:
+        type: string
+    type: object
+  model.ApiResponse:
+    properties:
+      method:
+        type: string
+      path:
+        type: string
+    type: object
+  model.ChangePassRequest:
+    properties:
+      newPassword:
+        type: string
+      oldPassword:
+        type: string
+    type: object
+  model.LoginRequest:
+    properties:
+      password:
+        example: "123456"
+        type: string
+      username:
+        example: admin
+        type: string
+    type: object
+  model.LoginResponse:
+    properties:
+      token:
+        type: string
+    type: object
+  model.RegisterRequest:
+    properties:
+      email:
+        type: string
+      nickName:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  model.RoleListResponse:
+    properties:
+      role:
+        type: string
+      roleName:
+        type: string
+      status:
+        type: boolean
+    type: object
+  model.RolesRequest:
+    properties:
+      roles:
+        items:
+          type: string
+        type: array
+    type: object
+  model.UserInfoResponse:
+    properties:
+      email:
+        type: string
+      nickName:
+        type: string
+      remark:
+        type: string
+      roles:
+        items:
+          type: string
+        type: array
+      username:
+        type: string
+      uuid:
+        type: string
+    type: object
+  response.Response:
+    properties:
+      code:
+        type: integer
+      data: {}
+      msg:
+        type: string
+    type: object
+info:
+  contact: {}
+  description: api框架
+  title: g-api
+  version: 1.0.0
+paths:
+  /v1/cache/db:
+    delete:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 清除資料庫緩存
+      tags:
+      - 緩存
+  /v1/casbin:
+    delete:
+      parameters:
+      - description: 路由資訊
+        in: body
+        name: ApiInfo
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/model.ApiRequest'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 移除api
+      tags:
+      - casbin
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.ApiResponse'
+                  type: array
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 獲取所有Api
+      tags:
+      - casbin
+  /v1/casbin/{role}:
+    get:
+      parameters:
+      - description: 角色
+        in: path
+        name: role
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 根據角色獲取api列表
+      tags:
+      - casbin
+    post:
+      parameters:
+      - description: 角色
+        in: path
+        name: role
+        required: true
+        type: string
+      - description: 路由資訊
+        in: body
+        name: ApiInfo
+        required: true
+        schema:
+          $ref: '#/definitions/model.ApiRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 新增一筆權限
+      tags:
+      - casbin
+    put:
+      parameters:
+      - description: 角色
+        in: path
+        name: role
+        required: true
+        type: string
+      - description: 路由資訊
+        in: body
+        name: ApiInfo
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/model.ApiRequest'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 更新api權限
+      tags:
+      - casbin
+  /v1/login:
+    post:
+      parameters:
+      - description: 帳號&密碼
+        in: body
+        name: Info
+        required: true
+        schema:
+          $ref: '#/definitions/model.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.LoginResponse'
+                msg:
+                  type: string
+              type: object
+      summary: 登入
+      tags:
+      - 系統
+  /v1/logout:
+    delete:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      summary: 登出
+      tags:
+      - 系統
+  /v1/register:
+    post:
+      parameters:
+      - description: 使用者資訊
+        in: body
+        name: Info
+        required: true
+        schema:
+          $ref: '#/definitions/model.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      summary: 註冊
+      tags:
+      - 系統
+  /v1/role:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/model.RoleListResponse'
+                  type: array
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 獲取所有角色
+      tags:
+      - 角色
+  /v1/user/{id}/roles:
+    put:
+      parameters:
+      - description: 使用者id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: 角色
+        in: body
+        name: roles
+        required: true
+        schema:
+          $ref: '#/definitions/model.RolesRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 更新角色
+      tags:
+      - 使用者
+  /v1/user/me:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.UserInfoResponse'
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 獲取使用者資訊
+      tags:
+      - 使用者
+  /v1/user/password:
+    patch:
+      parameters:
+      - description: 舊密碼&新密碼
+        in: body
+        name: Password
+        required: true
+        schema:
+          $ref: '#/definitions/model.ChangePassRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.UserInfoResponse'
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 修改密碼
+      tags:
+      - 使用者
+securityDefinitions:
+  BearerToken:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

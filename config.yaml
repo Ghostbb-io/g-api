@@ -1,0 +1,78 @@
+system:
+  port: 9000
+  https: false
+  router-prefix: /api
+gin:
+  log-zap: true
+gorm:
+  # mysql engine必須是InnoDB
+  type: mssql # mysql, pgsql, mssql, oracle
+  path: localhost
+  port: "1433"
+  config: "" # charset=utf8mb4&parseTime=True&loc=Local
+  db-name: g-api
+  username: mucgll0328
+  password: 123456
+  max-idle-conns: 10
+  max-open-conns: 100
+  cache: true
+  # cache-level說明
+  # CacheLevelOnlyPrimary: 只緩存primary key操作
+  # CacheLevelOnlySearch: 指緩存搜尋
+  # CacheLevelAll: 緩存全部
+  cache-level: CacheLevelAll
+  invalidate-when-update: true # when you create/update/delete objects, invalidate cache
+  cache-ttl: 60000 #ms
+  cache-max-item-cnt: 100 # for given query, if objects retrieved are more than this cnt. 0 represents caching all queries.
+  debug-mode: false
+  log-mode: info
+  log-zap: true
+  multiple-dbs:
+    - enable: false # 是否開啟此資料庫
+      alias-name: example1 # 資料庫的名稱, 注意：alias-name需要在multiple-dbs中唯一; 不能取"main","main"為系統資料庫名稱
+      type: mysql # mysql, pgsql, mssql, oracle
+      path: localhost
+      port: "3306"
+      config: charset=utf8mb4&parseTime=True&loc=Local
+      db-name: g-api
+      username: root
+      password: 123456
+      max-idle-conns: 10
+      max-open-conns: 100
+      cache: true
+cors:
+  # mode說明
+  # allow-all: 放行全部
+  # whitelist: 白名單模式
+  # strict-whitelist: 嚴格白名單模式, 白名單外的請求一律拒絕
+  mode: allow-all
+  whitelist:
+    - allow-origin: example.com
+      allow-methods: GET, POST, OPTIONS, PUT, DELETE
+      allow-headers: Content-Type,AccessToken,X-CSRF-Token, Authorization
+      expose-headers: Content-Length, Access-Control-Allow-Origin, Access-Control-Allow-Headers, Content-Type, Content-Disposition, New-Token
+      allow-credentials: true
+jwt:
+  signing-key: 5699e718-0608-420b-5dd1-992682b20988
+  expires-time: 7d
+  issuer: Ghostbb
+zap:
+  level: info
+  prefix: '[Ghostbb-Server] '
+  format: console # console: 終端模式輸出, json: json模式輸出
+  director: log/server # 全域log存放路徑
+  gorm-director: log/gorm #資料庫操作log存放路徑
+  # encode-level說明
+  # LowercaseLevelEncoder: 小寫編碼器(默認)
+  # LowercaseColorLevelEncoder: 小寫編碼器帶顏色
+  # CapitalLevelEncoder: 大寫編碼器
+  # CapitalColorLevelEncoder: 大寫編碼器帶顏色
+  encode-level: CapitalLevelEncoder
+  stacktrace-key: stacktrace
+  max-age: 5 # 單位：天
+  show-line: true
+  log-in-console: false
+redis:
+  db: 0
+  addr: localhost:6379
+  password: ""
