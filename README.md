@@ -5,8 +5,8 @@
 <div align=center>
     <img src="https://img.shields.io/badge/golang-1.21-blue" alt="golang"/>
     <img src="https://img.shields.io/badge/gin-1.9.1-00BB00" alt="gin"/>
-    <img src="https://img.shields.io/badge/gorm-1.25.2-red" alt="gorm"/>
-    <img src="https://img.shields.io/badge/redis-9.0.5-FF2D2D" alt="gorm"/>
+    <img src="https://img.shields.io/badge/gorm-1.25.4-red" alt="gorm"/>
+    <img src="https://img.shields.io/badge/redis-9.1.0-FF2D2D" alt="gorm"/>
     <img src="https://img.shields.io/badge/jwt-5.0.0-8A2BE2" alt="jwt"/>
 </div>
 
