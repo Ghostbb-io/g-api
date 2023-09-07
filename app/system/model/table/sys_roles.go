@@ -15,6 +15,8 @@ type SysRole struct {
 	DataScope int            `json:"dataScope" gorm:"default:3;comment:數據權限 0全部數據 1部門及子部門數據 2本部門數據 3本人數據"`
 	Remark    string         `json:"-" gorm:"comment:備註"`
 	Users     []SysUser      `json:"-" gorm:"many2many:sys_user_role;"`
+	Menus     []SysMenu      `json:"-" gorm:"many2many:sys_role_menu;"`
+	Btns      []SysBtn       `json:"-" gorm:"many2many:sys_role_btn;"`
 }
 
 func (SysRole) TableName() string {

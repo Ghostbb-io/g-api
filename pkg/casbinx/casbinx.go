@@ -70,6 +70,12 @@ func (c *Casbinx) GetSyncedCachedEnforcer() *casbin.SyncedCachedEnforcer {
 	return c.syncedCachedEnforcer
 }
 
+// GetRolesForUser 獲取使用者所有角色
+func (c *Casbinx) GetRolesForUser(userID uint) ([]string, error) {
+	e := c.syncedCachedEnforcer
+	return e.GetUsersForRole(strconv.Itoa(int(userID)))
+}
+
 // HasRoot 判斷使用者是否有root權限
 func (c *Casbinx) HasRoot(userID uint) (bool, error) {
 	e := c.syncedCachedEnforcer

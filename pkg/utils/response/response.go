@@ -9,7 +9,7 @@ import (
 const (
 	SUCCESS = 0
 	ERROR   = 7
-	UNAUTH  = 10
+	TIMEOUT = 10
 )
 
 type Response struct {
@@ -47,5 +47,5 @@ func FailWithDetailed(c *gin.Context, data interface{}, msg string) {
 }
 
 func UnAuth(c *gin.Context, msg string) {
-	Result(c, http.StatusUnauthorized, UNAUTH, map[string]interface{}{}, msg)
+	Result(c, http.StatusUnauthorized, TIMEOUT, map[string]interface{}{}, msg)
 }

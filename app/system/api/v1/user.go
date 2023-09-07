@@ -17,6 +17,8 @@ func (u *UserApi) Register(ver ginx.VersionFunc) {
 	v1 := ver(1, middleware.Auth()).Group("user")
 	{
 		v1.GET("me", u.userInfoByMe)
+		v1.GET("me/perm", u.permByMe)
+		v1.GET("me/menu", u.menuByMe)
 		v1.PATCH("password", u.changePass)
 	}
 	v1Private := v1.Group("", middleware.Casbin())
@@ -86,4 +88,36 @@ func (u *UserApi) updateRoles(c *gin.Context) {
 		return
 	}
 	response.Ok(c)
+}
+
+// @Tags      使用者
+// @Summary   獲取自身按鈕權限
+// @Produce   application/json
+// @Security  BearerToken
+// @Success   200  {object}  response.Response{data=[]string,msg=string} "操作成功"
+// @Router    /v1/user/me/perm [get]
+func (u *UserApi) permByMe(c *gin.Context) {
+	userID := ginx.GetUserID(c)
+	result, err := u.PermList(userID)
+	if err != nil {
+		response.FailWithMessage(c, err.Error())
+		return
+	}
+	response.OkWithData(c, result)
+}
+
+// @Tags      使用者
+// @Summary   獲取自身menu
+// @Produce   application/json
+// @Security  BearerToken
+// @Success   200  {object}  response.Response{data=[]model.MenuListResponse,msg=string} "操作成功"
+// @Router    /v1/user/me/menu [get]
+func (u *UserApi) menuByMe(c *gin.Context) {
+	userID := ginx.GetUserID(c)
+	result, err := u.MenuList(userID)
+	if err != nil {
+		response.FailWithMessage(c, err.Error())
+		return
+	}
+	response.OkWithData(c, result)
 }

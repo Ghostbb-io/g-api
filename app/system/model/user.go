@@ -1,14 +1,16 @@
 package model
 
-import "github.com/google/uuid"
-
 type UserInfoResponse struct {
-	UUID     uuid.UUID `json:"uuid"`
-	Username string    `json:"username"`
-	NickName string    `json:"nickName"`
-	Email    string    `json:"email"`
-	Remark   string    `json:"remark"`
-	Roles    []string  `json:"roles"`
+	UserID   uint       `json:"userId"`
+	UUID     string     `json:"uuid"`
+	Username string     `json:"username"`
+	NickName string     `json:"nickName"`
+	RealName string     `json:"realName"`
+	Email    string     `json:"email"`
+	Mobile   string     `json:"mobile"`
+	Avatar   string     `json:"avatar"`
+	Desc     string     `json:"desc"`
+	Roles    []RoleInfo `json:"roles"`
 }
 
 type ChangePassRequest struct {
@@ -18,4 +20,9 @@ type ChangePassRequest struct {
 
 type RolesRequest struct {
 	Roles []string `json:"roles"`
+}
+
+type RoleInfo struct {
+	Role     string `json:"role"`
+	RoleName string `json:"roleName"`
 }

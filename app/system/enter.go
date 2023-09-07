@@ -14,6 +14,8 @@ func New() []any {
 		// 自動建立表
 		&table.SysUser{},
 		&table.SysRole{},
+		&table.SysMenu{},
+		&table.SysBtn{},
 	)
 	if err != nil {
 		global.GB_LOG.Error("create table error", zap.Error(err))
@@ -24,6 +26,7 @@ func New() []any {
 		&v1.BaseApi{service.BaseService},
 		&v1.UserApi{service.UserService},
 		&v1.CasbinApi{service.CasbinService},
+		&v1.MenuApi{service.MenuService},
 		&v1.RoleApi{service.RoleService},
 		&v1.CacheApi{service.CacheService},
 	}

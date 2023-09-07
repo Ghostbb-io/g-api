@@ -17,6 +17,8 @@ type User interface {
 	UserInfo(uint) (model.UserInfoResponse, error)
 	ChangePassword(uint, model.ChangePassRequest, string) error
 	UpdateRoles(uint, model.RolesRequest) error
+	PermList(uint) ([]string, error)
+	MenuList(uint) ([]*model.MenuListResponse, error)
 }
 
 type user struct{}
@@ -27,16 +29,20 @@ func (user) UserInfo(userID uint) (model.UserInfoResponse, error) {
 	if err := global.GB_DB.Where("id = ?", userID).Preload("Roles").First(&user).Error; err != nil {
 		return model.UserInfoResponse{}, err
 	}
-	roles := make([]string, 0)
+	roles := make([]model.RoleInfo, 0)
 	for _, role := range user.Roles {
-		roles = append(roles, role.Role)
+		roles = append(roles, model.RoleInfo{Role: role.Role, RoleName: role.RoleName})
 	}
 	return model.UserInfoResponse{
-		UUID:     user.UUID,
+		UserID:   user.ID,
+		UUID:     user.UUID.String(),
 		Username: user.Username,
 		NickName: user.NickName,
+		RealName: user.RealName,
 		Email:    user.Email,
-		Remark:   user.Remark,
+		Mobile:   user.Mobile,
+		Avatar:   user.Avatar,
+		Desc:     user.Desc,
 		Roles:    roles,
 	}, nil
 }
@@ -85,4 +91,60 @@ func (user) UpdateRoles(userID uint, roles model.RolesRequest) error {
 		}
 		return nil
 	})
+}
+
+// PermList 獲取按鈕權限列表
+func (user) PermList(userID uint) ([]string, error) {
+	var perms []string
+	err := global.GB_DB.Select("sys_btn_permission").Table("sys_users a").
+		Joins("join sys_user_role b on (a.id = b.sys_user_id)").
+		Joins("join sys_role_btn c on (b.sys_role_role = c.sys_role_role)").
+		Where("a.id = ?", userID).Find(&perms).Error
+	if err != nil {
+		return nil, err
+	}
+	return perms, nil
+}
+
+// MenuList 根據user id取得menu
+func (user) MenuList(userID uint) ([]*model.MenuListResponse, error) {
+	var menus []table.SysMenu
+	err := global.GB_DB.Select("distinct d.*").Table("sys_users a").
+		Joins("join sys_user_role b on (a.id = b.sys_user_id)").
+		Joins("join sys_role_menu c on (b.sys_role_role = c.sys_role_role)").
+		Joins("join sys_menus d on (c.sys_menu_id = d.id)").
+		Where("a.id = ?", userID).Order("d.sort").Find(&menus).Error
+	if err != nil {
+		return nil, err
+	}
+
+	menuMap := make(map[uint]*model.MenuListResponse)
+	result := make([]*model.MenuListResponse, 0)
+	item := make([]*model.MenuListResponse, 0)
+	for _, menu := range menus {
+		temps := &model.MenuListResponse{
+			ParentID:  menu.ParentID,
+			Path:      menu.Path,
+			Name:      menu.Path,
+			Component: menu.Component,
+			Redirect:  menu.Redirect,
+			Meta:      menu.Meta,
+			Children:  make([]*model.MenuListResponse, 0),
+		}
+		if menu.ParentID == 0 {
+			result = append(result, temps)
+		} else {
+			item = append(item, temps)
+		}
+		menuMap[menu.ID] = temps
+	}
+
+	// 組裝
+	for _, menu := range item {
+		// 判斷父親menu是否存在
+		if _, ok := menuMap[menu.ParentID]; ok {
+			menuMap[menu.ParentID].Children = append(menuMap[menu.ParentID].Children, menu)
+		}
+	}
+	return result, nil
 }
