@@ -18,7 +18,7 @@ type User interface {
 	ChangePassword(uint, model.ChangePassRequest, string) error
 	UpdateRoles(uint, model.RolesRequest) error
 	PermList(uint) ([]string, error)
-	MenuList(uint) ([]*model.MenuListResponse, error)
+	RouteList(uint) ([]*model.RouteResponse, error)
 }
 
 type user struct{}
@@ -106,30 +106,29 @@ func (user) PermList(userID uint) ([]string, error) {
 	return perms, nil
 }
 
-// MenuList 根據user id取得menu
-func (user) MenuList(userID uint) ([]*model.MenuListResponse, error) {
+// RouteList 根據user id取得route
+func (user) RouteList(userID uint) ([]*model.RouteResponse, error) {
 	var menus []table.SysMenu
 	err := global.GB_DB.Select("distinct d.*").Table("sys_users a").
 		Joins("join sys_user_role b on (a.id = b.sys_user_id)").
 		Joins("join sys_role_menu c on (b.sys_role_role = c.sys_role_role)").
 		Joins("join sys_menus d on (c.sys_menu_id = d.id)").
-		Where("a.id = ?", userID).Order("d.sort").Find(&menus).Error
+		Where("a.id = ?", userID).Where("status = ?", true).Order("d.sort").Find(&menus).Error
 	if err != nil {
 		return nil, err
 	}
 
-	menuMap := make(map[uint]*model.MenuListResponse)
-	result := make([]*model.MenuListResponse, 0)
-	item := make([]*model.MenuListResponse, 0)
+	menuMap := make(map[uint]*model.RouteResponse)
+	result := make([]*model.RouteResponse, 0)
+	item := make([]*model.RouteResponse, 0)
 	for _, menu := range menus {
-		temps := &model.MenuListResponse{
+		temps := &model.RouteResponse{
 			ParentID:  menu.ParentID,
 			Path:      menu.Path,
-			Name:      menu.Path,
+			Name:      menu.Name,
 			Component: menu.Component,
 			Redirect:  menu.Redirect,
 			Meta:      menu.Meta,
-			Children:  make([]*model.MenuListResponse, 0),
 		}
 		if menu.ParentID == 0 {
 			result = append(result, temps)
@@ -143,6 +142,9 @@ func (user) MenuList(userID uint) ([]*model.MenuListResponse, error) {
 	for _, menu := range item {
 		// 判斷父親menu是否存在
 		if _, ok := menuMap[menu.ParentID]; ok {
+			if menuMap[menu.ParentID].Children == nil {
+				menuMap[menu.ParentID].Children = make([]*model.RouteResponse, 0)
+			}
 			menuMap[menu.ParentID].Children = append(menuMap[menu.ParentID].Children, menu)
 		}
 	}

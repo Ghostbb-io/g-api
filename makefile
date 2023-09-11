@@ -33,4 +33,4 @@ docker_push:
 	$(DOCKER_PUSH) $(DOCKER_IMAGE_NAME)
 swag:
 	@echo "初始化swag"
-	@swag init --generalInfo ./cmd/$(APP)/main.go --output ./core/swagger
+	@swag init --parseDependency --parseInternal --generalInfo ./cmd/$(APP)/main.go --output ./core/swagger

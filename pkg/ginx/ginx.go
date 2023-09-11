@@ -46,7 +46,7 @@ func ParseParam(c *gin.Context, key string) string {
 }
 
 // ParseQuery Parse query parameter to struct
-func ParseQuery(c *gin.Context, obj interface{}) error {
+func ParseQuery(c *gin.Context, obj any) error {
 	if err := c.ShouldBindQuery(obj); err != nil {
 		return errors.New(fmt.Sprintf("Parse request query failed: %s", err.Error()))
 	}

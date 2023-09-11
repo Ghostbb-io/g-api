@@ -36,7 +36,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/response.Response"
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
                                 },
                                 {
                                     "type": "object",
@@ -72,7 +72,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/response.Response"
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
                                 },
                                 {
                                     "type": "object",
@@ -80,7 +80,7 @@ const docTemplate = `{
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/model.ApiResponse"
+                                                "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ApiResponse"
                                             }
                                         },
                                         "msg": {
@@ -115,7 +115,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.ApiRequest"
+                                "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ApiRequest"
                             }
                         }
                     }
@@ -126,7 +126,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/response.Response"
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
                                 },
                                 {
                                     "type": "object",
@@ -171,7 +171,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/response.Response"
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
                                 },
                                 {
                                     "type": "object",
@@ -215,7 +215,7 @@ const docTemplate = `{
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.ApiRequest"
+                                "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ApiRequest"
                             }
                         }
                     }
@@ -226,7 +226,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/response.Response"
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
                                 },
                                 {
                                     "type": "object",
@@ -268,7 +268,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.ApiRequest"
+                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ApiRequest"
                         }
                     }
                 ],
@@ -278,7 +278,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/response.Response"
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
                                 },
                                 {
                                     "type": "object",
@@ -310,7 +310,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.LoginRequest"
+                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.LoginRequest"
                         }
                     }
                 ],
@@ -320,13 +320,13 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/response.Response"
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/model.LoginResponse"
+                                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.LoginResponse"
                                         },
                                         "msg": {
                                             "type": "string"
@@ -354,7 +354,194 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/response.Response"
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/menu": {
+            "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "目錄"
+                ],
+                "summary": "獲取所有目錄",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "菜單名稱",
+                        "name": "menuName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "true or false",
+                        "name": "status",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_MenuListItem"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "目錄"
+                ],
+                "summary": "新增菜單",
+                "parameters": [
+                    {
+                        "description": "菜單",
+                        "name": "menu",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.AddMenuRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/menu/tree": {
+            "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "目錄"
+                ],
+                "summary": "獲取所有菜單tree",
+                "parameters": [
+                    {
+                        "type": "boolean",
+                        "description": "是否只查詢目錄",
+                        "name": "dir",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/menu/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "目錄"
+                ],
+                "summary": "刪除菜單",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "菜單ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
                                 },
                                 {
                                     "type": "object",
@@ -386,7 +573,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.RegisterRequest"
+                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RegisterRequest"
                         }
                     }
                 ],
@@ -396,7 +583,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/response.Response"
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
                                 },
                                 {
                                     "type": "object",
@@ -432,7 +619,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/response.Response"
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
                                 },
                                 {
                                     "type": "object",
@@ -440,9 +627,184 @@ const docTemplate = `{
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/model.RoleListResponse"
+                                                "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RoleListResponse"
                                             }
                                         },
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/role/page": {
+            "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "角色"
+                ],
+                "summary": "根據頁數獲取所有角色",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "頁數",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每頁幾筆",
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "角色名稱",
+                        "name": "roleName",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "ture or false",
+                        "name": "status",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_RoleListItem"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/role/{role}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "角色"
+                ],
+                "summary": "更新角色",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "角色",
+                        "name": "role",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "角色資訊",
+                        "name": "role",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.EditRoleRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/role/{role}/status": {
+            "patch": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "角色"
+                ],
+                "summary": "設定狀態",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "角色",
+                        "name": "role",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "設定",
+                        "name": "in",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.SetStatusRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
                                         "msg": {
                                             "type": "string"
                                         }
@@ -474,13 +836,97 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/response.Response"
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/model.UserInfoResponse"
+                                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.UserInfoResponse"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/user/me/perm": {
+            "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "使用者"
+                ],
+                "summary": "獲取自身按鈕權限",
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/user/me/route": {
+            "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "使用者"
+                ],
+                "summary": "獲取自身menu",
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RouteResponse"
+                                            }
                                         },
                                         "msg": {
                                             "type": "string"
@@ -514,7 +960,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.ChangePassRequest"
+                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ChangePassRequest"
                         }
                     }
                 ],
@@ -524,13 +970,13 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/response.Response"
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
                                 },
                                 {
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/model.UserInfoResponse"
+                                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.UserInfoResponse"
                                         },
                                         "msg": {
                                             "type": "string"
@@ -571,7 +1017,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.RolesRequest"
+                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RolesRequest"
                         }
                     }
                 ],
@@ -581,7 +1027,7 @@ const docTemplate = `{
                         "schema": {
                             "allOf": [
                                 {
-                                    "$ref": "#/definitions/response.Response"
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
                                 },
                                 {
                                     "type": "object",
@@ -599,7 +1045,54 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "model.ApiRequest": {
+        "github_com_Ghostbb-io_g-api_app_system_model.AddMenuRequest": {
+            "type": "object",
+            "properties": {
+                "children": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.MenuListItem"
+                    }
+                },
+                "component": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "frameSrc": {
+                    "type": "string"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "menuName": {
+                    "type": "string"
+                },
+                "parentMenu": {
+                    "type": "integer"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "show": {
+                    "type": "boolean"
+                },
+                "sort": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_Ghostbb-io_g-api_app_system_model.ApiRequest": {
             "type": "object",
             "properties": {
                 "method": {
@@ -610,7 +1103,7 @@ const docTemplate = `{
                 }
             }
         },
-        "model.ApiResponse": {
+        "github_com_Ghostbb-io_g-api_app_system_model.ApiResponse": {
             "type": "object",
             "properties": {
                 "method": {
@@ -621,7 +1114,35 @@ const docTemplate = `{
                 }
             }
         },
-        "model.ChangePassRequest": {
+        "github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_MenuListItem": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.MenuListItem"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_RoleListItem": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RoleListItem"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github_com_Ghostbb-io_g-api_app_system_model.ChangePassRequest": {
             "type": "object",
             "properties": {
                 "newPassword": {
@@ -632,7 +1153,30 @@ const docTemplate = `{
                 }
             }
         },
-        "model.LoginRequest": {
+        "github_com_Ghostbb-io_g-api_app_system_model.EditRoleRequest": {
+            "type": "object",
+            "properties": {
+                "menu": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "remark": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "roleName": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "github_com_Ghostbb-io_g-api_app_system_model.LoginRequest": {
             "type": "object",
             "properties": {
                 "password": {
@@ -645,7 +1189,7 @@ const docTemplate = `{
                 }
             }
         },
-        "model.LoginResponse": {
+        "github_com_Ghostbb-io_g-api_app_system_model.LoginResponse": {
             "type": "object",
             "properties": {
                 "token": {
@@ -653,7 +1197,54 @@ const docTemplate = `{
                 }
             }
         },
-        "model.RegisterRequest": {
+        "github_com_Ghostbb-io_g-api_app_system_model.MenuListItem": {
+            "type": "object",
+            "properties": {
+                "children": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.MenuListItem"
+                    }
+                },
+                "component": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "frameSrc": {
+                    "type": "string"
+                },
+                "icon": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "menuName": {
+                    "type": "string"
+                },
+                "parentMenu": {
+                    "type": "integer"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "show": {
+                    "type": "boolean"
+                },
+                "sort": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_Ghostbb-io_g-api_app_system_model.RegisterRequest": {
             "type": "object",
             "properties": {
                 "email": {
@@ -670,7 +1261,44 @@ const docTemplate = `{
                 }
             }
         },
-        "model.RoleListResponse": {
+        "github_com_Ghostbb-io_g-api_app_system_model.RoleInfo": {
+            "type": "object",
+            "properties": {
+                "role": {
+                    "type": "string"
+                },
+                "roleName": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_Ghostbb-io_g-api_app_system_model.RoleListItem": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "menu": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "remark": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "roleName": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "github_com_Ghostbb-io_g-api_app_system_model.RoleListResponse": {
             "type": "object",
             "properties": {
                 "role": {
@@ -684,7 +1312,7 @@ const docTemplate = `{
                 }
             }
         },
-        "model.RolesRequest": {
+        "github_com_Ghostbb-io_g-api_app_system_model.RolesRequest": {
             "type": "object",
             "properties": {
                 "roles": {
@@ -695,23 +1323,69 @@ const docTemplate = `{
                 }
             }
         },
-        "model.UserInfoResponse": {
+        "github_com_Ghostbb-io_g-api_app_system_model.RouteResponse": {
             "type": "object",
             "properties": {
+                "children": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RouteResponse"
+                    }
+                },
+                "component": {
+                    "type": "string"
+                },
+                "meta": {
+                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model_table.Meta"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "redirect": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_Ghostbb-io_g-api_app_system_model.SetStatusRequest": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "github_com_Ghostbb-io_g-api_app_system_model.UserInfoResponse": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "type": "string"
+                },
+                "desc": {
+                    "type": "string"
+                },
                 "email": {
+                    "type": "string"
+                },
+                "mobile": {
                     "type": "string"
                 },
                 "nickName": {
                     "type": "string"
                 },
-                "remark": {
+                "realName": {
                     "type": "string"
                 },
                 "roles": {
                     "type": "array",
                     "items": {
-                        "type": "string"
+                        "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RoleInfo"
                     }
+                },
+                "userId": {
+                    "type": "integer"
                 },
                 "username": {
                     "type": "string"
@@ -721,7 +1395,76 @@ const docTemplate = `{
                 }
             }
         },
-        "response.Response": {
+        "github_com_Ghostbb-io_g-api_app_system_model_table.Meta": {
+            "type": "object",
+            "properties": {
+                "affix": {
+                    "description": "是否固定標簽",
+                    "type": "boolean"
+                },
+                "carryParam": {
+                    "description": "如果該路由會攜帶參數，且需要在tab頁上面顯示。則需要設置為true",
+                    "type": "boolean"
+                },
+                "currentActiveMenu": {
+                    "description": "當前激活的菜單。用於配置詳情頁時左側激活的菜單路徑",
+                    "type": "string"
+                },
+                "dynamicLevel": {
+                    "description": "動態路由可打開Tab頁數",
+                    "type": "integer"
+                },
+                "frameSrc": {
+                    "description": "內嵌iframe的地址",
+                    "type": "string"
+                },
+                "hideBreadcrumb": {
+                    "description": "隱藏該路由在面包屑上面的顯示",
+                    "type": "boolean"
+                },
+                "hideChildrenInMenu": {
+                    "description": "隱藏所有子菜單",
+                    "type": "boolean"
+                },
+                "hideMenu": {
+                    "description": "當前路由不再菜單顯示",
+                    "type": "boolean"
+                },
+                "hidePathForChildren": {
+                    "description": "是否在子級菜單的完整path中忽略本級path。2.5.3以上版本有效",
+                    "type": "boolean"
+                },
+                "hideTab": {
+                    "description": "當前路由不再標簽頁顯示",
+                    "type": "boolean"
+                },
+                "icon": {
+                    "description": "圖標，也是菜單圖標",
+                    "type": "string"
+                },
+                "ignoreKeepAlive": {
+                    "description": "是否忽略KeepAlive緩存",
+                    "type": "boolean"
+                },
+                "ignoreRoute": {
+                    "description": "忽略路由。用於在ROUTE_MAPPING以及BACK權限模式下，生成對應的菜單而忽略路由。2.5.3以上版本有效",
+                    "type": "boolean"
+                },
+                "realPath": {
+                    "description": "動態路由的實際Path, 即去除路由的動態部分;",
+                    "type": "string"
+                },
+                "title": {
+                    "description": "路由title  一般必填",
+                    "type": "string"
+                },
+                "transitionName": {
+                    "description": "指定該路由切換的動畫名",
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_Ghostbb-io_g-api_pkg_utils_response.Response": {
             "type": "object",
             "properties": {
                 "code": {

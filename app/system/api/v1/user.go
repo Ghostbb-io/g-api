@@ -5,6 +5,7 @@ import (
 	"github.com/Ghostbb-io/g-api/app/system/service"
 	"github.com/Ghostbb-io/g-api/core/middleware"
 	"github.com/Ghostbb-io/g-api/pkg/ginx"
+
 	"github.com/Ghostbb-io/g-api/pkg/utils/response"
 	"github.com/gin-gonic/gin"
 )
@@ -18,7 +19,7 @@ func (u *UserApi) Register(ver ginx.VersionFunc) {
 	{
 		v1.GET("me", u.userInfoByMe)
 		v1.GET("me/perm", u.permByMe)
-		v1.GET("me/menu", u.menuByMe)
+		v1.GET("me/route", u.routeByMe)
 		v1.PATCH("password", u.changePass)
 	}
 	v1Private := v1.Group("", middleware.Casbin())
@@ -110,11 +111,11 @@ func (u *UserApi) permByMe(c *gin.Context) {
 // @Summary   獲取自身menu
 // @Produce   application/json
 // @Security  BearerToken
-// @Success   200  {object}  response.Response{data=[]model.MenuListResponse,msg=string} "操作成功"
-// @Router    /v1/user/me/menu [get]
-func (u *UserApi) menuByMe(c *gin.Context) {
+// @Success   200  {object}  response.Response{data=[]model.RouteResponse,msg=string} "操作成功"
+// @Router    /v1/user/me/route [get]
+func (u *UserApi) routeByMe(c *gin.Context) {
 	userID := ginx.GetUserID(c)
-	result, err := u.MenuList(userID)
+	result, err := u.RouteList(userID)
 	if err != nil {
 		response.FailWithMessage(c, err.Error())
 		return

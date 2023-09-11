@@ -1,5 +1,7 @@
 package model
 
+import "github.com/Ghostbb-io/g-api/app/system/model/table"
+
 type UserInfoResponse struct {
 	UserID   uint       `json:"userId"`
 	UUID     string     `json:"uuid"`
@@ -25,4 +27,14 @@ type RolesRequest struct {
 type RoleInfo struct {
 	Role     string `json:"role"`
 	RoleName string `json:"roleName"`
+}
+
+type RouteResponse struct {
+	ParentID  uint             `json:"-"`
+	Path      string           `json:"path"`
+	Name      string           `json:"name"`
+	Component string           `json:"component"`
+	Redirect  string           `json:"redirect"`
+	Meta      table.Meta       `json:"meta"`
+	Children  []*RouteResponse `json:"children"`
 }

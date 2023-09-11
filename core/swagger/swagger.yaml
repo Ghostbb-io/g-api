@@ -1,27 +1,91 @@
 basePath: /api
 definitions:
-  model.ApiRequest:
+  github_com_Ghostbb-io_g-api_app_system_model.AddMenuRequest:
+    properties:
+      children:
+        items:
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.MenuListItem'
+        type: array
+      component:
+        type: string
+      createdAt:
+        type: string
+      frameSrc:
+        type: string
+      icon:
+        type: string
+      id:
+        type: integer
+      menuName:
+        type: string
+      parentMenu:
+        type: integer
+      path:
+        type: string
+      show:
+        type: boolean
+      sort:
+        type: integer
+      status:
+        type: boolean
+      type:
+        type: string
+    type: object
+  github_com_Ghostbb-io_g-api_app_system_model.ApiRequest:
     properties:
       method:
         type: string
       path:
         type: string
     type: object
-  model.ApiResponse:
+  github_com_Ghostbb-io_g-api_app_system_model.ApiResponse:
     properties:
       method:
         type: string
       path:
         type: string
     type: object
-  model.ChangePassRequest:
+  github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_MenuListItem:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.MenuListItem'
+        type: array
+      total:
+        type: integer
+    type: object
+  github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_RoleListItem:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RoleListItem'
+        type: array
+      total:
+        type: integer
+    type: object
+  github_com_Ghostbb-io_g-api_app_system_model.ChangePassRequest:
     properties:
       newPassword:
         type: string
       oldPassword:
         type: string
     type: object
-  model.LoginRequest:
+  github_com_Ghostbb-io_g-api_app_system_model.EditRoleRequest:
+    properties:
+      menu:
+        items:
+          type: integer
+        type: array
+      remark:
+        type: string
+      role:
+        type: string
+      roleName:
+        type: string
+      status:
+        type: boolean
+    type: object
+  github_com_Ghostbb-io_g-api_app_system_model.LoginRequest:
     properties:
       password:
         example: "123456"
@@ -30,12 +94,43 @@ definitions:
         example: admin
         type: string
     type: object
-  model.LoginResponse:
+  github_com_Ghostbb-io_g-api_app_system_model.LoginResponse:
     properties:
       token:
         type: string
     type: object
-  model.RegisterRequest:
+  github_com_Ghostbb-io_g-api_app_system_model.MenuListItem:
+    properties:
+      children:
+        items:
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.MenuListItem'
+        type: array
+      component:
+        type: string
+      createdAt:
+        type: string
+      frameSrc:
+        type: string
+      icon:
+        type: string
+      id:
+        type: integer
+      menuName:
+        type: string
+      parentMenu:
+        type: integer
+      path:
+        type: string
+      show:
+        type: boolean
+      sort:
+        type: integer
+      status:
+        type: boolean
+      type:
+        type: string
+    type: object
+  github_com_Ghostbb-io_g-api_app_system_model.RegisterRequest:
     properties:
       email:
         type: string
@@ -46,7 +141,31 @@ definitions:
       username:
         type: string
     type: object
-  model.RoleListResponse:
+  github_com_Ghostbb-io_g-api_app_system_model.RoleInfo:
+    properties:
+      role:
+        type: string
+      roleName:
+        type: string
+    type: object
+  github_com_Ghostbb-io_g-api_app_system_model.RoleListItem:
+    properties:
+      createdAt:
+        type: string
+      menu:
+        items:
+          type: integer
+        type: array
+      remark:
+        type: string
+      role:
+        type: string
+      roleName:
+        type: string
+      status:
+        type: boolean
+    type: object
+  github_com_Ghostbb-io_g-api_app_system_model.RoleListResponse:
     properties:
       role:
         type: string
@@ -55,31 +174,112 @@ definitions:
       status:
         type: boolean
     type: object
-  model.RolesRequest:
+  github_com_Ghostbb-io_g-api_app_system_model.RolesRequest:
     properties:
       roles:
         items:
           type: string
         type: array
     type: object
-  model.UserInfoResponse:
+  github_com_Ghostbb-io_g-api_app_system_model.RouteResponse:
     properties:
+      children:
+        items:
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RouteResponse'
+        type: array
+      component:
+        type: string
+      meta:
+        $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model_table.Meta'
+      name:
+        type: string
+      path:
+        type: string
+      redirect:
+        type: string
+    type: object
+  github_com_Ghostbb-io_g-api_app_system_model.SetStatusRequest:
+    properties:
+      status:
+        type: boolean
+    type: object
+  github_com_Ghostbb-io_g-api_app_system_model.UserInfoResponse:
+    properties:
+      avatar:
+        type: string
+      desc:
+        type: string
       email:
+        type: string
+      mobile:
         type: string
       nickName:
         type: string
-      remark:
+      realName:
         type: string
       roles:
         items:
-          type: string
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RoleInfo'
         type: array
+      userId:
+        type: integer
       username:
         type: string
       uuid:
         type: string
     type: object
-  response.Response:
+  github_com_Ghostbb-io_g-api_app_system_model_table.Meta:
+    properties:
+      affix:
+        description: 是否固定標簽
+        type: boolean
+      carryParam:
+        description: 如果該路由會攜帶參數，且需要在tab頁上面顯示。則需要設置為true
+        type: boolean
+      currentActiveMenu:
+        description: 當前激活的菜單。用於配置詳情頁時左側激活的菜單路徑
+        type: string
+      dynamicLevel:
+        description: 動態路由可打開Tab頁數
+        type: integer
+      frameSrc:
+        description: 內嵌iframe的地址
+        type: string
+      hideBreadcrumb:
+        description: 隱藏該路由在面包屑上面的顯示
+        type: boolean
+      hideChildrenInMenu:
+        description: 隱藏所有子菜單
+        type: boolean
+      hideMenu:
+        description: 當前路由不再菜單顯示
+        type: boolean
+      hidePathForChildren:
+        description: 是否在子級菜單的完整path中忽略本級path。2.5.3以上版本有效
+        type: boolean
+      hideTab:
+        description: 當前路由不再標簽頁顯示
+        type: boolean
+      icon:
+        description: 圖標，也是菜單圖標
+        type: string
+      ignoreKeepAlive:
+        description: 是否忽略KeepAlive緩存
+        type: boolean
+      ignoreRoute:
+        description: 忽略路由。用於在ROUTE_MAPPING以及BACK權限模式下，生成對應的菜單而忽略路由。2.5.3以上版本有效
+        type: boolean
+      realPath:
+        description: 動態路由的實際Path, 即去除路由的動態部分;
+        type: string
+      title:
+        description: 路由title  一般必填
+        type: string
+      transitionName:
+        description: 指定該路由切換的動畫名
+        type: string
+    type: object
+  github_com_Ghostbb-io_g-api_pkg_utils_response.Response:
     properties:
       code:
         type: integer
@@ -102,7 +302,7 @@ paths:
           description: 操作成功
           schema:
             allOf:
-            - $ref: '#/definitions/response.Response'
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
             - properties:
                 msg:
                   type: string
@@ -121,7 +321,7 @@ paths:
         required: true
         schema:
           items:
-            $ref: '#/definitions/model.ApiRequest'
+            $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ApiRequest'
           type: array
       produces:
       - application/json
@@ -130,7 +330,7 @@ paths:
           description: 操作成功
           schema:
             allOf:
-            - $ref: '#/definitions/response.Response'
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
             - properties:
                 msg:
                   type: string
@@ -148,11 +348,11 @@ paths:
           description: 操作成功
           schema:
             allOf:
-            - $ref: '#/definitions/response.Response'
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
             - properties:
                 data:
                   items:
-                    $ref: '#/definitions/model.ApiResponse'
+                    $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ApiResponse'
                   type: array
                 msg:
                   type: string
@@ -177,7 +377,7 @@ paths:
           description: 操作成功
           schema:
             allOf:
-            - $ref: '#/definitions/response.Response'
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
             - properties:
                 msg:
                   type: string
@@ -199,7 +399,7 @@ paths:
         name: ApiInfo
         required: true
         schema:
-          $ref: '#/definitions/model.ApiRequest'
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ApiRequest'
       produces:
       - application/json
       responses:
@@ -207,7 +407,7 @@ paths:
           description: 操作成功
           schema:
             allOf:
-            - $ref: '#/definitions/response.Response'
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
             - properties:
                 msg:
                   type: string
@@ -230,7 +430,7 @@ paths:
         required: true
         schema:
           items:
-            $ref: '#/definitions/model.ApiRequest'
+            $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ApiRequest'
           type: array
       produces:
       - application/json
@@ -239,7 +439,7 @@ paths:
           description: 操作成功
           schema:
             allOf:
-            - $ref: '#/definitions/response.Response'
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
             - properties:
                 msg:
                   type: string
@@ -257,7 +457,7 @@ paths:
         name: Info
         required: true
         schema:
-          $ref: '#/definitions/model.LoginRequest'
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.LoginRequest'
       produces:
       - application/json
       responses:
@@ -265,10 +465,10 @@ paths:
           description: 操作成功
           schema:
             allOf:
-            - $ref: '#/definitions/response.Response'
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/model.LoginResponse'
+                  $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.LoginResponse'
                 msg:
                   type: string
               type: object
@@ -284,7 +484,7 @@ paths:
           description: 操作成功
           schema:
             allOf:
-            - $ref: '#/definitions/response.Response'
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
             - properties:
                 msg:
                   type: string
@@ -292,6 +492,110 @@ paths:
       summary: 登出
       tags:
       - 系統
+  /v1/menu:
+    get:
+      parameters:
+      - description: 菜單名稱
+        in: query
+        name: menuName
+        type: string
+      - description: true or false
+        in: query
+        name: status
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_MenuListItem'
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 獲取所有目錄
+      tags:
+      - 目錄
+    post:
+      parameters:
+      - description: 菜單
+        in: body
+        name: menu
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.AddMenuRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 新增菜單
+      tags:
+      - 目錄
+  /v1/menu/{id}:
+    delete:
+      parameters:
+      - description: 菜單ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 刪除菜單
+      tags:
+      - 目錄
+  /v1/menu/tree:
+    get:
+      parameters:
+      - description: 是否只查詢目錄
+        in: query
+        name: dir
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 獲取所有菜單tree
+      tags:
+      - 目錄
   /v1/register:
     post:
       parameters:
@@ -300,7 +604,7 @@ paths:
         name: Info
         required: true
         schema:
-          $ref: '#/definitions/model.RegisterRequest'
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RegisterRequest'
       produces:
       - application/json
       responses:
@@ -308,7 +612,7 @@ paths:
           description: 操作成功
           schema:
             allOf:
-            - $ref: '#/definitions/response.Response'
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
             - properties:
                 msg:
                   type: string
@@ -325,11 +629,11 @@ paths:
           description: 操作成功
           schema:
             allOf:
-            - $ref: '#/definitions/response.Response'
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
             - properties:
                 data:
                   items:
-                    $ref: '#/definitions/model.RoleListResponse'
+                    $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RoleListResponse'
                   type: array
                 msg:
                   type: string
@@ -337,6 +641,108 @@ paths:
       security:
       - BearerToken: []
       summary: 獲取所有角色
+      tags:
+      - 角色
+  /v1/role/{role}:
+    put:
+      parameters:
+      - description: 角色
+        in: path
+        name: role
+        required: true
+        type: string
+      - description: 角色資訊
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.EditRoleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 更新角色
+      tags:
+      - 角色
+  /v1/role/{role}/status:
+    patch:
+      parameters:
+      - description: 角色
+        in: path
+        name: role
+        required: true
+        type: string
+      - description: 設定
+        in: body
+        name: in
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.SetStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 設定狀態
+      tags:
+      - 角色
+  /v1/role/page:
+    get:
+      parameters:
+      - description: 頁數
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: 每頁幾筆
+        in: query
+        name: pageSize
+        required: true
+        type: integer
+      - description: 角色名稱
+        in: query
+        name: roleName
+        type: string
+      - description: ture or false
+        in: query
+        name: status
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_RoleListItem'
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 根據頁數獲取所有角色
       tags:
       - 角色
   /v1/user/{id}/roles:
@@ -352,7 +758,7 @@ paths:
         name: roles
         required: true
         schema:
-          $ref: '#/definitions/model.RolesRequest'
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RolesRequest'
       produces:
       - application/json
       responses:
@@ -360,7 +766,7 @@ paths:
           description: 操作成功
           schema:
             allOf:
-            - $ref: '#/definitions/response.Response'
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
             - properties:
                 msg:
                   type: string
@@ -379,16 +785,62 @@ paths:
           description: 操作成功
           schema:
             allOf:
-            - $ref: '#/definitions/response.Response'
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/model.UserInfoResponse'
+                  $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.UserInfoResponse'
                 msg:
                   type: string
               type: object
       security:
       - BearerToken: []
       summary: 獲取使用者資訊
+      tags:
+      - 使用者
+  /v1/user/me/perm:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                data:
+                  items:
+                    type: string
+                  type: array
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 獲取自身按鈕權限
+      tags:
+      - 使用者
+  /v1/user/me/route:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RouteResponse'
+                  type: array
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 獲取自身menu
       tags:
       - 使用者
   /v1/user/password:
@@ -399,7 +851,7 @@ paths:
         name: Password
         required: true
         schema:
-          $ref: '#/definitions/model.ChangePassRequest'
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ChangePassRequest'
       produces:
       - application/json
       responses:
@@ -407,10 +859,10 @@ paths:
           description: 操作成功
           schema:
             allOf:
-            - $ref: '#/definitions/response.Response'
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/model.UserInfoResponse'
+                  $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.UserInfoResponse'
                 msg:
                   type: string
               type: object

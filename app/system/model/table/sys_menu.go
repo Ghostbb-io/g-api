@@ -4,12 +4,14 @@ import "github.com/Ghostbb-io/g-api/pkg/global"
 
 type SysMenu struct {
 	global.GB_MODEL
+	Type      string `json:"type" gorm:"comment:dir menu iframe"`
 	ParentID  uint   `json:"-"`
 	Path      string `json:"path"`
-	Name      string `json:"name"`
+	Name      string `json:"name" gorm:"comment:路由名稱"`
 	Component string `json:"component"`
 	Redirect  string `json:"redirect"`
 	Sort      int    `json:"sort"`
+	Status    bool   `json:"status" gorm:"default:true;comment:是否啟用"`
 	Meta      `json:"meta" gorm:"embedded;comment:附加屬性"`
 	Children  []*SysMenu `json:"children" gorm:"-"`
 	Roles     []SysRole  `json:"roles" gorm:"many2many:sys_role_menu;"`
