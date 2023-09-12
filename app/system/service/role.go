@@ -2,10 +2,13 @@ package service
 
 import (
 	"errors"
+	"fmt"
 	"github.com/Ghostbb-io/g-api/app/system/model"
 	"github.com/Ghostbb-io/g-api/app/system/model/table"
+	"github.com/Ghostbb-io/g-api/pkg/casbinx"
 	"github.com/Ghostbb-io/g-api/pkg/global"
 	"gorm.io/gorm"
+	"regexp"
 )
 
 var RoleService Role = new(role)
@@ -36,6 +39,7 @@ func (role) RoleList() ([]model.RoleListResponse, error) {
 
 // RoleListByPage 根據page, pageSize獲取角色列表
 func (role) RoleListByPage(in model.RolePageParams) (model.BasicFetchResult[model.RoleItem], error) {
+	cb, _ := casbinx.New(global.GB_DB)
 	tx := global.GB_DB.Model(&table.SysRole{}).Where("role_name like ?", "%"+in.RoleName+"%").Limit(in.PageSize).Offset((in.Page - 1) * in.PageSize)
 	if in.Status != "" {
 		if in.Status == "true" {
@@ -57,6 +61,10 @@ func (role) RoleListByPage(in model.RolePageParams) (model.BasicFetchResult[mode
 				menusID = append(menusID, menu.ID)
 			}
 		}
+		apiKey := make([]string, 0)
+		for _, api := range cb.GetPolicyPathByRole(role.Role) {
+			apiKey = append(apiKey, fmt.Sprintf("%s[%s]", api.Path, api.Method))
+		}
 		result.Items = append(result.Items, model.RoleItem{
 			Role:      role.Role,
 			RoleName:  role.RoleName,
@@ -64,6 +72,7 @@ func (role) RoleListByPage(in model.RolePageParams) (model.BasicFetchResult[mode
 			Remark:    role.Remark,
 			CreatedAt: role.CreatedAt.Format("2006-01-02 - 15:04:05"),
 			Menu:      menusID,
+			Api:       apiKey,
 		})
 	}
 	if err := global.GB_DB.Model(&table.SysRole{}).Count(&result.Total).Error; err != nil {
@@ -96,6 +105,16 @@ func (role) Update(r string, in model.EditRoleRequest) error {
 		role.Remark = in.Remark
 		role.Status = in.Status
 	}
+	regex := regexp.MustCompile(`(.*)\[(.*)]`)
+	apis := make([]casbinx.ApiInfo, 0)
+	for _, api := range in.Api {
+		// '/v1/role[GET]'
+		match := regex.FindStringSubmatch(api)
+		if match != nil {
+			apis = append(apis, casbinx.ApiInfo{Path: match[1], Method: match[2]})
+		}
+	}
+
 	return global.GB_DB.Transaction(func(tx *gorm.DB) error {
 		if err := tx.Save(&role).Error; err != nil {
 			return err
@@ -134,6 +153,15 @@ func (role) Update(r string, in model.EditRoleRequest) error {
 		}
 		if err := tx.Create(&roleMenu).Error; err != nil {
 			return err
+		}
+		// 更新api
+		cb, _ := casbinx.New(global.GB_DB)
+		if len(apis) == 0 {
+			cb.ClearCasbin(0, in.Role)
+		} else {
+			if err := cb.Update(in.Role, apis); err != nil {
+				return err
+			}
 		}
 		return nil
 	})

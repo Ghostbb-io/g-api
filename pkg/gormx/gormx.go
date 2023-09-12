@@ -66,3 +66,8 @@ func New(cfg *Config, _cache ...*config.CacheConfig) (db *gorm.DB, err error) {
 
 	return db, err
 }
+
+func ResetCache(db *gorm.DB) error {
+	gc := db.Config.Plugins["gormcache"].(cache.Cache)
+	return gc.ResetCache()
+}

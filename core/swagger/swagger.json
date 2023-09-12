@@ -8,6 +8,265 @@
     },
     "basePath": "/api",
     "paths": {
+        "/v1/api": {
+            "post": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "api"
+                ],
+                "summary": "新增api",
+                "parameters": [
+                    {
+                        "description": "api資訊",
+                        "name": "api",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.AddApiRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/api/page": {
+            "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "api"
+                ],
+                "summary": "根據頁數獲取所有api",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "頁數",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每頁幾筆",
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "路徑",
+                        "name": "path",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "分組",
+                        "name": "group",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "請求",
+                        "name": "method",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_ApiItem"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/api/tree": {
+            "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "api"
+                ],
+                "summary": "獲取api tree",
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ApiTree"
+                                            }
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/api/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "api"
+                ],
+                "summary": "編輯api",
+                "parameters": [
+                    {
+                        "description": "api資訊",
+                        "name": "api",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.EditApiRequest"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "api id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "api"
+                ],
+                "summary": "刪除api",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "api id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/v1/cache/db": {
             "delete": {
                 "security": [
@@ -402,7 +661,7 @@
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_MenuListItem"
+                                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_MenuItem"
                                         },
                                         "msg": {
                                             "type": "string"
@@ -505,6 +764,58 @@
             }
         },
         "/v1/menu/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "目錄"
+                ],
+                "summary": "更新菜單",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "菜單ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "目錄",
+                        "name": "menu",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.EditMenuRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
             "delete": {
                 "security": [
                     {
@@ -631,6 +942,51 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "角色"
+                ],
+                "summary": "更新角色",
+                "parameters": [
+                    {
+                        "description": "角色資訊",
+                        "name": "role",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.AddRoleRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
             }
         },
         "/v1/role/page": {
@@ -687,7 +1043,7 @@
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_RoleListItem"
+                                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_RoleItem"
                                         },
                                         "msg": {
                                             "type": "string"
@@ -730,6 +1086,49 @@
                         "schema": {
                             "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.EditRoleRequest"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "角色"
+                ],
+                "summary": "刪除角色",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "角色",
+                        "name": "role",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1037,13 +1436,47 @@
         }
     },
     "definitions": {
+        "github_com_Ghostbb-io_g-api_app_system_model.AddApiRequest": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "desc": {
+                    "type": "string"
+                },
+                "group": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "method": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
         "github_com_Ghostbb-io_g-api_app_system_model.AddMenuRequest": {
             "type": "object",
             "properties": {
+                "affix": {
+                    "description": "是否固定標簽",
+                    "type": "boolean"
+                },
+                "carryParam": {
+                    "description": "如果該路由會攜帶參數，且需要在tab頁上面顯示。則需要設置為true",
+                    "type": "boolean"
+                },
                 "children": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.MenuListItem"
+                        "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.MenuItem"
                     }
                 },
                 "component": {
@@ -1052,26 +1485,68 @@
                 "createdAt": {
                     "type": "string"
                 },
-                "frameSrc": {
+                "currentActiveMenu": {
+                    "description": "當前激活的菜單。用於配置詳情頁時左側激活的菜單路徑",
                     "type": "string"
                 },
+                "dynamicLevel": {
+                    "description": "動態路由可打開Tab頁數",
+                    "type": "integer"
+                },
+                "frameSrc": {
+                    "description": "內嵌iframe的地址",
+                    "type": "string"
+                },
+                "hideBreadcrumb": {
+                    "description": "隱藏該路由在面包屑上面的顯示",
+                    "type": "boolean"
+                },
+                "hideChildrenInMenu": {
+                    "description": "隱藏所有子菜單",
+                    "type": "boolean"
+                },
+                "hideMenu": {
+                    "description": "當前路由不再菜單顯示",
+                    "type": "boolean"
+                },
+                "hidePathForChildren": {
+                    "description": "是否在子級菜單的完整path中忽略本級path。2.5.3以上版本有效",
+                    "type": "boolean"
+                },
+                "hideTab": {
+                    "description": "當前路由不再標簽頁顯示",
+                    "type": "boolean"
+                },
                 "icon": {
+                    "description": "圖標，也是菜單圖標",
                     "type": "string"
                 },
                 "id": {
                     "type": "integer"
                 },
-                "menuName": {
+                "ignoreKeepAlive": {
+                    "description": "是否忽略KeepAlive緩存",
+                    "type": "boolean"
+                },
+                "ignoreRoute": {
+                    "description": "忽略路由。用於在ROUTE_MAPPING以及BACK權限模式下，生成對應的菜單而忽略路由。2.5.3以上版本有效",
+                    "type": "boolean"
+                },
+                "name": {
                     "type": "string"
                 },
-                "parentMenu": {
+                "parentID": {
                     "type": "integer"
                 },
                 "path": {
                     "type": "string"
                 },
-                "show": {
-                    "type": "boolean"
+                "realPath": {
+                    "description": "動態路由的實際Path, 即去除路由的動態部分;",
+                    "type": "string"
+                },
+                "redirect": {
+                    "type": "string"
                 },
                 "sort": {
                     "type": "integer"
@@ -1079,7 +1554,76 @@
                 "status": {
                     "type": "boolean"
                 },
+                "title": {
+                    "description": "路由title  一般必填",
+                    "type": "string"
+                },
+                "transitionName": {
+                    "description": "指定該路由切換的動畫名",
+                    "type": "string"
+                },
                 "type": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_Ghostbb-io_g-api_app_system_model.AddRoleRequest": {
+            "type": "object",
+            "properties": {
+                "api": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "menu": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "remark": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "roleName": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "github_com_Ghostbb-io_g-api_app_system_model.ApiItem": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "desc": {
+                    "type": "string"
+                },
+                "group": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "method": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "updatedAt": {
                     "type": "string"
                 }
             }
@@ -1106,13 +1650,30 @@
                 }
             }
         },
-        "github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_MenuListItem": {
+        "github_com_Ghostbb-io_g-api_app_system_model.ApiTree": {
+            "type": "object",
+            "properties": {
+                "children": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ApiTree"
+                    }
+                },
+                "key": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_ApiItem": {
             "type": "object",
             "properties": {
                 "items": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.MenuListItem"
+                        "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ApiItem"
                     }
                 },
                 "total": {
@@ -1120,13 +1681,27 @@
                 }
             }
         },
-        "github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_RoleListItem": {
+        "github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_MenuItem": {
             "type": "object",
             "properties": {
                 "items": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RoleListItem"
+                        "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.MenuItem"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_RoleItem": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RoleItem"
                     }
                 },
                 "total": {
@@ -1145,9 +1720,152 @@
                 }
             }
         },
+        "github_com_Ghostbb-io_g-api_app_system_model.EditApiRequest": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "desc": {
+                    "type": "string"
+                },
+                "group": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "method": {
+                    "type": "string"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_Ghostbb-io_g-api_app_system_model.EditMenuRequest": {
+            "type": "object",
+            "properties": {
+                "affix": {
+                    "description": "是否固定標簽",
+                    "type": "boolean"
+                },
+                "carryParam": {
+                    "description": "如果該路由會攜帶參數，且需要在tab頁上面顯示。則需要設置為true",
+                    "type": "boolean"
+                },
+                "children": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.MenuItem"
+                    }
+                },
+                "component": {
+                    "type": "string"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "currentActiveMenu": {
+                    "description": "當前激活的菜單。用於配置詳情頁時左側激活的菜單路徑",
+                    "type": "string"
+                },
+                "dynamicLevel": {
+                    "description": "動態路由可打開Tab頁數",
+                    "type": "integer"
+                },
+                "frameSrc": {
+                    "description": "內嵌iframe的地址",
+                    "type": "string"
+                },
+                "hideBreadcrumb": {
+                    "description": "隱藏該路由在面包屑上面的顯示",
+                    "type": "boolean"
+                },
+                "hideChildrenInMenu": {
+                    "description": "隱藏所有子菜單",
+                    "type": "boolean"
+                },
+                "hideMenu": {
+                    "description": "當前路由不再菜單顯示",
+                    "type": "boolean"
+                },
+                "hidePathForChildren": {
+                    "description": "是否在子級菜單的完整path中忽略本級path。2.5.3以上版本有效",
+                    "type": "boolean"
+                },
+                "hideTab": {
+                    "description": "當前路由不再標簽頁顯示",
+                    "type": "boolean"
+                },
+                "icon": {
+                    "description": "圖標，也是菜單圖標",
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "ignoreKeepAlive": {
+                    "description": "是否忽略KeepAlive緩存",
+                    "type": "boolean"
+                },
+                "ignoreRoute": {
+                    "description": "忽略路由。用於在ROUTE_MAPPING以及BACK權限模式下，生成對應的菜單而忽略路由。2.5.3以上版本有效",
+                    "type": "boolean"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "parentID": {
+                    "type": "integer"
+                },
+                "path": {
+                    "type": "string"
+                },
+                "realPath": {
+                    "description": "動態路由的實際Path, 即去除路由的動態部分;",
+                    "type": "string"
+                },
+                "redirect": {
+                    "type": "string"
+                },
+                "sort": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "title": {
+                    "description": "路由title  一般必填",
+                    "type": "string"
+                },
+                "transitionName": {
+                    "description": "指定該路由切換的動畫名",
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
         "github_com_Ghostbb-io_g-api_app_system_model.EditRoleRequest": {
             "type": "object",
             "properties": {
+                "api": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "createdAt": {
+                    "type": "string"
+                },
                 "menu": {
                     "type": "array",
                     "items": {
@@ -1189,13 +1907,21 @@
                 }
             }
         },
-        "github_com_Ghostbb-io_g-api_app_system_model.MenuListItem": {
+        "github_com_Ghostbb-io_g-api_app_system_model.MenuItem": {
             "type": "object",
             "properties": {
+                "affix": {
+                    "description": "是否固定標簽",
+                    "type": "boolean"
+                },
+                "carryParam": {
+                    "description": "如果該路由會攜帶參數，且需要在tab頁上面顯示。則需要設置為true",
+                    "type": "boolean"
+                },
                 "children": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.MenuListItem"
+                        "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.MenuItem"
                     }
                 },
                 "component": {
@@ -1204,26 +1930,68 @@
                 "createdAt": {
                     "type": "string"
                 },
-                "frameSrc": {
+                "currentActiveMenu": {
+                    "description": "當前激活的菜單。用於配置詳情頁時左側激活的菜單路徑",
                     "type": "string"
                 },
+                "dynamicLevel": {
+                    "description": "動態路由可打開Tab頁數",
+                    "type": "integer"
+                },
+                "frameSrc": {
+                    "description": "內嵌iframe的地址",
+                    "type": "string"
+                },
+                "hideBreadcrumb": {
+                    "description": "隱藏該路由在面包屑上面的顯示",
+                    "type": "boolean"
+                },
+                "hideChildrenInMenu": {
+                    "description": "隱藏所有子菜單",
+                    "type": "boolean"
+                },
+                "hideMenu": {
+                    "description": "當前路由不再菜單顯示",
+                    "type": "boolean"
+                },
+                "hidePathForChildren": {
+                    "description": "是否在子級菜單的完整path中忽略本級path。2.5.3以上版本有效",
+                    "type": "boolean"
+                },
+                "hideTab": {
+                    "description": "當前路由不再標簽頁顯示",
+                    "type": "boolean"
+                },
                 "icon": {
+                    "description": "圖標，也是菜單圖標",
                     "type": "string"
                 },
                 "id": {
                     "type": "integer"
                 },
-                "menuName": {
+                "ignoreKeepAlive": {
+                    "description": "是否忽略KeepAlive緩存",
+                    "type": "boolean"
+                },
+                "ignoreRoute": {
+                    "description": "忽略路由。用於在ROUTE_MAPPING以及BACK權限模式下，生成對應的菜單而忽略路由。2.5.3以上版本有效",
+                    "type": "boolean"
+                },
+                "name": {
                     "type": "string"
                 },
-                "parentMenu": {
+                "parentID": {
                     "type": "integer"
                 },
                 "path": {
                     "type": "string"
                 },
-                "show": {
-                    "type": "boolean"
+                "realPath": {
+                    "description": "動態路由的實際Path, 即去除路由的動態部分;",
+                    "type": "string"
+                },
+                "redirect": {
+                    "type": "string"
                 },
                 "sort": {
                     "type": "integer"
@@ -1231,7 +1999,18 @@
                 "status": {
                     "type": "boolean"
                 },
+                "title": {
+                    "description": "路由title  一般必填",
+                    "type": "string"
+                },
+                "transitionName": {
+                    "description": "指定該路由切換的動畫名",
+                    "type": "string"
+                },
                 "type": {
+                    "type": "string"
+                },
+                "updatedAt": {
                     "type": "string"
                 }
             }
@@ -1264,9 +2043,15 @@
                 }
             }
         },
-        "github_com_Ghostbb-io_g-api_app_system_model.RoleListItem": {
+        "github_com_Ghostbb-io_g-api_app_system_model.RoleItem": {
             "type": "object",
             "properties": {
+                "api": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
                 "createdAt": {
                     "type": "string"
                 },

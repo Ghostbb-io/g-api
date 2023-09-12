@@ -1,34 +1,135 @@
 basePath: /api
 definitions:
+  github_com_Ghostbb-io_g-api_app_system_model.AddApiRequest:
+    properties:
+      createdAt:
+        type: string
+      desc:
+        type: string
+      group:
+        type: string
+      id:
+        type: integer
+      method:
+        type: string
+      path:
+        type: string
+      updatedAt:
+        type: string
+    type: object
   github_com_Ghostbb-io_g-api_app_system_model.AddMenuRequest:
     properties:
+      affix:
+        description: 是否固定標簽
+        type: boolean
+      carryParam:
+        description: 如果該路由會攜帶參數，且需要在tab頁上面顯示。則需要設置為true
+        type: boolean
       children:
         items:
-          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.MenuListItem'
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.MenuItem'
         type: array
       component:
         type: string
       createdAt:
         type: string
-      frameSrc:
+      currentActiveMenu:
+        description: 當前激活的菜單。用於配置詳情頁時左側激活的菜單路徑
         type: string
+      dynamicLevel:
+        description: 動態路由可打開Tab頁數
+        type: integer
+      frameSrc:
+        description: 內嵌iframe的地址
+        type: string
+      hideBreadcrumb:
+        description: 隱藏該路由在面包屑上面的顯示
+        type: boolean
+      hideChildrenInMenu:
+        description: 隱藏所有子菜單
+        type: boolean
+      hideMenu:
+        description: 當前路由不再菜單顯示
+        type: boolean
+      hidePathForChildren:
+        description: 是否在子級菜單的完整path中忽略本級path。2.5.3以上版本有效
+        type: boolean
+      hideTab:
+        description: 當前路由不再標簽頁顯示
+        type: boolean
       icon:
+        description: 圖標，也是菜單圖標
         type: string
       id:
         type: integer
-      menuName:
+      ignoreKeepAlive:
+        description: 是否忽略KeepAlive緩存
+        type: boolean
+      ignoreRoute:
+        description: 忽略路由。用於在ROUTE_MAPPING以及BACK權限模式下，生成對應的菜單而忽略路由。2.5.3以上版本有效
+        type: boolean
+      name:
         type: string
-      parentMenu:
+      parentID:
         type: integer
       path:
         type: string
-      show:
-        type: boolean
+      realPath:
+        description: 動態路由的實際Path, 即去除路由的動態部分;
+        type: string
+      redirect:
+        type: string
       sort:
         type: integer
       status:
         type: boolean
+      title:
+        description: 路由title  一般必填
+        type: string
+      transitionName:
+        description: 指定該路由切換的動畫名
+        type: string
       type:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  github_com_Ghostbb-io_g-api_app_system_model.AddRoleRequest:
+    properties:
+      api:
+        items:
+          type: string
+        type: array
+      createdAt:
+        type: string
+      menu:
+        items:
+          type: integer
+        type: array
+      remark:
+        type: string
+      role:
+        type: string
+      roleName:
+        type: string
+      status:
+        type: boolean
+    type: object
+  github_com_Ghostbb-io_g-api_app_system_model.ApiItem:
+    properties:
+      createdAt:
+        type: string
+      desc:
+        type: string
+      group:
+        type: string
+      id:
+        type: integer
+      method:
+        type: string
+      path:
+        type: string
+      updatedAt:
         type: string
     type: object
   github_com_Ghostbb-io_g-api_app_system_model.ApiRequest:
@@ -45,20 +146,40 @@ definitions:
       path:
         type: string
     type: object
-  github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_MenuListItem:
+  github_com_Ghostbb-io_g-api_app_system_model.ApiTree:
+    properties:
+      children:
+        items:
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ApiTree'
+        type: array
+      key:
+        type: string
+      title:
+        type: string
+    type: object
+  github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_ApiItem:
     properties:
       items:
         items:
-          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.MenuListItem'
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ApiItem'
         type: array
       total:
         type: integer
     type: object
-  github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_RoleListItem:
+  github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_MenuItem:
     properties:
       items:
         items:
-          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RoleListItem'
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.MenuItem'
+        type: array
+      total:
+        type: integer
+    type: object
+  github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_RoleItem:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RoleItem'
         type: array
       total:
         type: integer
@@ -70,8 +191,108 @@ definitions:
       oldPassword:
         type: string
     type: object
+  github_com_Ghostbb-io_g-api_app_system_model.EditApiRequest:
+    properties:
+      createdAt:
+        type: string
+      desc:
+        type: string
+      group:
+        type: string
+      id:
+        type: integer
+      method:
+        type: string
+      path:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  github_com_Ghostbb-io_g-api_app_system_model.EditMenuRequest:
+    properties:
+      affix:
+        description: 是否固定標簽
+        type: boolean
+      carryParam:
+        description: 如果該路由會攜帶參數，且需要在tab頁上面顯示。則需要設置為true
+        type: boolean
+      children:
+        items:
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.MenuItem'
+        type: array
+      component:
+        type: string
+      createdAt:
+        type: string
+      currentActiveMenu:
+        description: 當前激活的菜單。用於配置詳情頁時左側激活的菜單路徑
+        type: string
+      dynamicLevel:
+        description: 動態路由可打開Tab頁數
+        type: integer
+      frameSrc:
+        description: 內嵌iframe的地址
+        type: string
+      hideBreadcrumb:
+        description: 隱藏該路由在面包屑上面的顯示
+        type: boolean
+      hideChildrenInMenu:
+        description: 隱藏所有子菜單
+        type: boolean
+      hideMenu:
+        description: 當前路由不再菜單顯示
+        type: boolean
+      hidePathForChildren:
+        description: 是否在子級菜單的完整path中忽略本級path。2.5.3以上版本有效
+        type: boolean
+      hideTab:
+        description: 當前路由不再標簽頁顯示
+        type: boolean
+      icon:
+        description: 圖標，也是菜單圖標
+        type: string
+      id:
+        type: integer
+      ignoreKeepAlive:
+        description: 是否忽略KeepAlive緩存
+        type: boolean
+      ignoreRoute:
+        description: 忽略路由。用於在ROUTE_MAPPING以及BACK權限模式下，生成對應的菜單而忽略路由。2.5.3以上版本有效
+        type: boolean
+      name:
+        type: string
+      parentID:
+        type: integer
+      path:
+        type: string
+      realPath:
+        description: 動態路由的實際Path, 即去除路由的動態部分;
+        type: string
+      redirect:
+        type: string
+      sort:
+        type: integer
+      status:
+        type: boolean
+      title:
+        description: 路由title  一般必填
+        type: string
+      transitionName:
+        description: 指定該路由切換的動畫名
+        type: string
+      type:
+        type: string
+      updatedAt:
+        type: string
+    type: object
   github_com_Ghostbb-io_g-api_app_system_model.EditRoleRequest:
     properties:
+      api:
+        items:
+          type: string
+        type: array
+      createdAt:
+        type: string
       menu:
         items:
           type: integer
@@ -99,35 +320,81 @@ definitions:
       token:
         type: string
     type: object
-  github_com_Ghostbb-io_g-api_app_system_model.MenuListItem:
+  github_com_Ghostbb-io_g-api_app_system_model.MenuItem:
     properties:
+      affix:
+        description: 是否固定標簽
+        type: boolean
+      carryParam:
+        description: 如果該路由會攜帶參數，且需要在tab頁上面顯示。則需要設置為true
+        type: boolean
       children:
         items:
-          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.MenuListItem'
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.MenuItem'
         type: array
       component:
         type: string
       createdAt:
         type: string
-      frameSrc:
+      currentActiveMenu:
+        description: 當前激活的菜單。用於配置詳情頁時左側激活的菜單路徑
         type: string
+      dynamicLevel:
+        description: 動態路由可打開Tab頁數
+        type: integer
+      frameSrc:
+        description: 內嵌iframe的地址
+        type: string
+      hideBreadcrumb:
+        description: 隱藏該路由在面包屑上面的顯示
+        type: boolean
+      hideChildrenInMenu:
+        description: 隱藏所有子菜單
+        type: boolean
+      hideMenu:
+        description: 當前路由不再菜單顯示
+        type: boolean
+      hidePathForChildren:
+        description: 是否在子級菜單的完整path中忽略本級path。2.5.3以上版本有效
+        type: boolean
+      hideTab:
+        description: 當前路由不再標簽頁顯示
+        type: boolean
       icon:
+        description: 圖標，也是菜單圖標
         type: string
       id:
         type: integer
-      menuName:
+      ignoreKeepAlive:
+        description: 是否忽略KeepAlive緩存
+        type: boolean
+      ignoreRoute:
+        description: 忽略路由。用於在ROUTE_MAPPING以及BACK權限模式下，生成對應的菜單而忽略路由。2.5.3以上版本有效
+        type: boolean
+      name:
         type: string
-      parentMenu:
+      parentID:
         type: integer
       path:
         type: string
-      show:
-        type: boolean
+      realPath:
+        description: 動態路由的實際Path, 即去除路由的動態部分;
+        type: string
+      redirect:
+        type: string
       sort:
         type: integer
       status:
         type: boolean
+      title:
+        description: 路由title  一般必填
+        type: string
+      transitionName:
+        description: 指定該路由切換的動畫名
+        type: string
       type:
+        type: string
+      updatedAt:
         type: string
     type: object
   github_com_Ghostbb-io_g-api_app_system_model.RegisterRequest:
@@ -148,8 +415,12 @@ definitions:
       roleName:
         type: string
     type: object
-  github_com_Ghostbb-io_g-api_app_system_model.RoleListItem:
+  github_com_Ghostbb-io_g-api_app_system_model.RoleItem:
     properties:
+      api:
+        items:
+          type: string
+        type: array
       createdAt:
         type: string
       menu:
@@ -293,6 +564,154 @@ info:
   title: g-api
   version: 1.0.0
 paths:
+  /v1/api:
+    post:
+      parameters:
+      - description: api資訊
+        in: body
+        name: api
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.AddApiRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 新增api
+      tags:
+      - api
+  /v1/api/{id}:
+    delete:
+      parameters:
+      - description: api id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 刪除api
+      tags:
+      - api
+    put:
+      parameters:
+      - description: api資訊
+        in: body
+        name: api
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.EditApiRequest'
+      - description: api id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 編輯api
+      tags:
+      - api
+  /v1/api/page:
+    get:
+      parameters:
+      - description: 頁數
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: 每頁幾筆
+        in: query
+        name: pageSize
+        required: true
+        type: integer
+      - description: 路徑
+        in: query
+        name: path
+        type: string
+      - description: 分組
+        in: query
+        name: group
+        type: string
+      - description: 請求
+        in: query
+        name: method
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_ApiItem'
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 根據頁數獲取所有api
+      tags:
+      - api
+  /v1/api/tree:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ApiTree'
+                  type: array
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 獲取api tree
+      tags:
+      - api
   /v1/cache/db:
     delete:
       produces:
@@ -513,7 +932,7 @@ paths:
             - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_MenuListItem'
+                  $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_MenuItem'
                 msg:
                   type: string
               type: object
@@ -570,6 +989,36 @@ paths:
       security:
       - BearerToken: []
       summary: 刪除菜單
+      tags:
+      - 目錄
+    put:
+      parameters:
+      - description: 菜單ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: 目錄
+        in: body
+        name: menu
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.EditMenuRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 更新菜單
       tags:
       - 目錄
   /v1/menu/tree:
@@ -643,7 +1092,56 @@ paths:
       summary: 獲取所有角色
       tags:
       - 角色
+    post:
+      parameters:
+      - description: 角色資訊
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.AddRoleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 更新角色
+      tags:
+      - 角色
   /v1/role/{role}:
+    delete:
+      parameters:
+      - description: 角色
+        in: path
+        name: role
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 刪除角色
+      tags:
+      - 角色
     put:
       parameters:
       - description: 角色
@@ -736,7 +1234,7 @@ paths:
             - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_RoleListItem'
+                  $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_RoleItem'
                 msg:
                   type: string
               type: object

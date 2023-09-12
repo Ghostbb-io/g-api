@@ -16,6 +16,7 @@ func New() []any {
 		&table.SysRole{},
 		&table.SysMenu{},
 		&table.SysBtn{},
+		&table.SysApi{},
 	)
 	if err != nil {
 		global.GB_LOG.Error("create table error", zap.Error(err))
@@ -29,5 +30,6 @@ func New() []any {
 		&v1.MenuApi{service.MenuService},
 		&v1.RoleApi{service.RoleService},
 		&v1.CacheApi{service.CacheService},
+		&v1.ApiApi{service.ApiService},
 	}
 }

@@ -55,7 +55,7 @@ func (r *RoleApi) roleList(c *gin.Context) {
 // @Router    /v1/role/page [get]
 func (r *RoleApi) roleListByPage(c *gin.Context) {
 	var query model.RolePageParams
-	if err := c.ShouldBindQuery(&query); err != nil {
+	if err := ginx.ParseQuery(c, &query); err != nil {
 		response.FailWithMessage(c, err.Error())
 		return
 	}

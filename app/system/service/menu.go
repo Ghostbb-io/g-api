@@ -114,6 +114,8 @@ func (menu) MenuList(in model.MenuParams) (model.BasicFetchResult[*model.MenuIte
 				menuMap[menu.ParentID].Children = make([]*model.MenuItem, 0)
 			}
 			menuMap[menu.ParentID].Children = append(menuMap[menu.ParentID].Children, menu)
+		} else {
+			result.Items = append(result.Items, menu)
 		}
 	}
 

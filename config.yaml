@@ -26,7 +26,7 @@ gorm:
   invalidate-when-update: true # when you create/update/delete objects, invalidate cache
   cache-ttl: 60000 #ms
   cache-max-item-cnt: 100 # for given query, if objects retrieved are more than this cnt. 0 represents caching all queries.
-  debug-mode: false
+  debug-mode: true
   log-mode: info
   log-zap: true
   multiple-dbs:

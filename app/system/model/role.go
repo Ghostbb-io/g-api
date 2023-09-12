@@ -15,12 +15,13 @@ type SetStatusRequest struct {
 }
 
 type RoleItem struct {
-	RoleName  string `json:"roleName"`
-	Role      string `json:"role"`
-	Status    bool   `json:"status"`
-	Remark    string `json:"remark"`
-	CreatedAt string `json:"createdAt"`
-	Menu      []uint `json:"menu"`
+	RoleName  string   `json:"roleName"`
+	Role      string   `json:"role"`
+	Status    bool     `json:"status"`
+	Remark    string   `json:"remark"`
+	CreatedAt string   `json:"createdAt"`
+	Menu      []uint   `json:"menu"`
+	Api       []string `json:"api"`
 }
 
 type RoleParams struct {
@@ -34,9 +35,5 @@ type RolePageParams struct {
 }
 
 type EditRoleRequest struct {
-	Role     string `json:"role"`
-	Remark   string `json:"remark"`
-	RoleName string `json:"roleName"`
-	Status   bool   `json:"status"`
-	Menu     []uint `json:"menu"`
+	RoleItem
 }
