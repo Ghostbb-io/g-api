@@ -19,6 +19,12 @@ type User interface {
 	UpdateRoles(uint, model.RolesRequest) error
 	PermList(uint) ([]string, error)
 	RouteList(uint) ([]*model.RouteResponse, error)
+	IsUsernameExist(string) bool
+	UserListByPage(model.UserPageParams) (model.BasicFetchResult[model.UserItem], error)
+	EditUser(uint, model.EditUserRequest) error
+	AddUser(model.AddUserRequest) error
+	DelUser(uint) error
+	SetStatus(uint, model.SetUserStatusRequest) error
 }
 
 type user struct{}
@@ -43,6 +49,7 @@ func (user) UserInfo(userID uint) (model.UserInfoResponse, error) {
 		Mobile:   user.Mobile,
 		Avatar:   user.Avatar,
 		Desc:     user.Desc,
+		Status:   user.Status,
 		Roles:    roles,
 	}, nil
 }
@@ -113,7 +120,7 @@ func (user) RouteList(userID uint) ([]*model.RouteResponse, error) {
 		Joins("join sys_user_role b on (a.id = b.sys_user_id)").
 		Joins("join sys_role_menu c on (b.sys_role_role = c.sys_role_role)").
 		Joins("join sys_menus d on (c.sys_menu_id = d.id)").
-		Where("a.id = ?", userID).Where("status = ?", true).Order("d.sort").Find(&menus).Error
+		Where("a.id = ?", userID).Where("d.status = ?", true).Order("d.sort").Find(&menus).Error
 	if err != nil {
 		return nil, err
 	}
@@ -149,4 +156,102 @@ func (user) RouteList(userID uint) ([]*model.RouteResponse, error) {
 		}
 	}
 	return result, nil
+}
+
+// IsUsernameExist 判斷使用者是否存在
+func (user) IsUsernameExist(username string) bool {
+	return errors.Is(global.GB_DB.Where("username = ?", username).First(&table.SysUser{}).Error, gorm.ErrRecordNotFound)
+}
+
+// UserListByPage 根據Page, PageSize獲取使用者列表
+func (user) UserListByPage(in model.UserPageParams) (model.BasicFetchResult[model.UserItem], error) {
+	status := []bool{true, false}
+	if in.Status != "" {
+		if in.Status == "true" {
+			status = []bool{true}
+		} else {
+			status = []bool{false}
+		}
+	}
+	var users []table.SysUser
+	if err := global.GB_DB.Preload("Roles").
+		Where("username like ?", "%"+in.Username+"%").
+		Where("nick_name like ?", "%"+in.NickName+"%").
+		Where("status in ?", status).Find(&users).Error; err != nil {
+		return model.BasicFetchResult[model.UserItem]{}, err
+	}
+	var result model.BasicFetchResult[model.UserItem]
+	for _, user := range users {
+		roles := make([]string, 0)
+		for _, role := range user.Roles {
+			roles = append(roles, role.Role)
+		}
+		result.Items = append(result.Items, model.UserItem{
+			ID:        user.ID,
+			Username:  user.Username,
+			NickName:  user.NickName,
+			RealName:  user.RealName,
+			Email:     user.Email,
+			Mobile:    user.Mobile,
+			Remark:    user.Remark,
+			CreatedAt: user.CreatedAt.Format("2006-01-02 - 15:04:05"),
+			Status:    user.Status,
+			Roles:     roles,
+		})
+	}
+	if err := global.GB_DB.Model(&table.SysUser{}).Count(&result.Total).Error; err != nil {
+		return model.BasicFetchResult[model.UserItem]{}, err
+	}
+	return result, nil
+}
+
+// EditUser 編輯使用者
+func (user) EditUser(userID uint, in model.EditUserRequest) error {
+	var user table.SysUser
+	if err := global.GB_DB.Where("id = ?", userID).First(&user).Error; err != nil {
+		return err
+	}
+	{
+		user.ID = userID
+		user.NickName = in.NickName
+		user.RealName = in.RealName
+		user.Email = in.Email
+		user.Mobile = in.Mobile
+		user.Remark = in.Remark
+	}
+	for _, role := range in.Roles {
+		user.Roles = append(user.Roles, table.SysRole{Role: role})
+	}
+	return global.GB_DB.Save(&user).Error
+}
+
+// AddUser 新增使用者
+func (user) AddUser(in model.AddUserRequest) error {
+	var user table.SysUser
+	if !errors.Is(global.GB_DB.Where("username = ?", in.Username).First(&user).Error, gorm.ErrRecordNotFound) {
+		return errors.New("此使用者已存在")
+	}
+	{
+		user.Username = in.Username
+		user.Password = utils.BcryptHash(in.Password)
+		user.NickName = in.NickName
+		user.RealName = in.RealName
+		user.Email = in.Email
+		user.Mobile = in.Mobile
+		user.Remark = in.Remark
+	}
+	for _, role := range in.Roles {
+		user.Roles = append(user.Roles, table.SysRole{Role: role})
+	}
+	return global.GB_DB.Create(&user).Error
+}
+
+// DelUser 刪除使用者
+func (user) DelUser(userID uint) error {
+	return global.GB_DB.Where("id = ?", userID).Delete(&table.SysUser{}).Error
+}
+
+// SetStatus 更新狀態
+func (user) SetStatus(userID uint, in model.SetUserStatusRequest) error {
+	return global.GB_DB.Model(&table.SysUser{}).Where("id = ?", userID).Update("status", in.Status).Error
 }

@@ -32,7 +32,7 @@ func (r *RoleApi) Register(ver ginx.VersionFunc) {
 // @Summary   獲取所有角色
 // @Produce   application/json
 // @Security  BearerToken
-// @Success   200  {object}  response.Response{data=[]model.RoleListResponse,msg=string}  "操作成功"
+// @Success   200  {object}  response.Response{data=[]model.RoleItem,msg=string}  "操作成功"
 // @Router    /v1/role [get]
 func (r *RoleApi) roleList(c *gin.Context) {
 	result, err := r.RoleList()

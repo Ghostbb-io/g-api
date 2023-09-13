@@ -17,6 +17,7 @@ type SysUser struct {
 	Mobile   string    `json:"mobile" gorm:"comment:手機號碼"`
 	Desc     string    `json:"desc" gorm:"介紹"`
 	Remark   string    `json:"remark" gorm:"comment:備註"`
+	Status   bool      `json:"status" gorm:"default:true;comment:是否被凍結"`
 	Roles    []SysRole `json:"roles" gorm:"many2many:sys_user_role;"`
 }
 

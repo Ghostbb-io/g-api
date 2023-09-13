@@ -213,6 +213,8 @@ func (menu) EditMenu(id uint, in model.EditMenuRequest) error {
 	case "menu":
 		menu.TransitionName = in.TransitionName
 		menu.IgnoreKeepAlive = in.IgnoreKeepAlive
+		menu.CurrentActiveMenu = in.CurrentActiveMenu
+		menu.HideMenu = in.HideMenu
 		menu.Affix = in.Affix
 		menu.HideTab = in.HideTab
 		menu.IgnoreRoute = in.IgnoreRoute

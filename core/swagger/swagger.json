@@ -303,248 +303,6 @@
                 }
             }
         },
-        "/v1/casbin": {
-            "get": {
-                "security": [
-                    {
-                        "BearerToken": []
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "casbin"
-                ],
-                "summary": "獲取所有Api",
-                "responses": {
-                    "200": {
-                        "description": "操作成功",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ApiResponse"
-                                            }
-                                        },
-                                        "msg": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "security": [
-                    {
-                        "BearerToken": []
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "casbin"
-                ],
-                "summary": "移除api",
-                "parameters": [
-                    {
-                        "description": "路由資訊",
-                        "name": "ApiInfo",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ApiRequest"
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "操作成功",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "msg": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/casbin/{role}": {
-            "get": {
-                "security": [
-                    {
-                        "BearerToken": []
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "casbin"
-                ],
-                "summary": "根據角色獲取api列表",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "角色",
-                        "name": "role",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "操作成功",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "msg": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "BearerToken": []
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "casbin"
-                ],
-                "summary": "更新api權限",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "角色",
-                        "name": "role",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "路由資訊",
-                        "name": "ApiInfo",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ApiRequest"
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "操作成功",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "msg": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [
-                    {
-                        "BearerToken": []
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "casbin"
-                ],
-                "summary": "新增一筆權限",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "角色",
-                        "name": "role",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "路由資訊",
-                        "name": "ApiInfo",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ApiRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "操作成功",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "msg": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "/v1/login": {
             "post": {
                 "produces": [
@@ -930,7 +688,7 @@
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RoleListResponse"
+                                                "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RoleItem"
                                             }
                                         },
                                         "msg": {
@@ -1207,6 +965,98 @@
                 }
             }
         },
+        "/v1/user": {
+            "post": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "使用者"
+                ],
+                "summary": "新增使用者",
+                "parameters": [
+                    {
+                        "description": "使用者",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.AddUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/user/check/username": {
+            "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "使用者"
+                ],
+                "summary": "確認使用者是否存在",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "使用者名稱",
+                        "name": "username",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/v1/user/me": {
             "get": {
                 "security": [
@@ -1330,6 +1180,73 @@
                 }
             }
         },
+        "/v1/user/page": {
+            "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "使用者"
+                ],
+                "summary": "根據page, pageSize獲取使用者列表",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "頁數",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "每頁幾筆",
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "使用者名稱",
+                        "name": "username",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "暱稱",
+                        "name": "nickName",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_UserItem"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/v1/user/password": {
             "patch": {
                 "security": [
@@ -1380,6 +1297,140 @@
                 }
             }
         },
+        "/v1/user/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "使用者"
+                ],
+                "summary": "獲取使用者資訊",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "使用者id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.UserInfoResponse"
+                                        },
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "使用者"
+                ],
+                "summary": "編輯使用者",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "使用者id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "使用者"
+                ],
+                "summary": "刪除使用者",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "使用者id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/v1/user/{id}/roles": {
             "put": {
                 "security": [
@@ -1409,6 +1460,60 @@
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RolesRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/user/{id}/status": {
+            "patch": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "使用者"
+                ],
+                "summary": "更新使用者狀態",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "使用者id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "狀態",
+                        "name": "status",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.SetUserStatusRequest"
                         }
                     }
                 ],
@@ -1602,6 +1707,47 @@
                 }
             }
         },
+        "github_com_Ghostbb-io_g-api_app_system_model.AddUserRequest": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "mobile": {
+                    "type": "string"
+                },
+                "nickName": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "realName": {
+                    "type": "string"
+                },
+                "remark": {
+                    "type": "string"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
         "github_com_Ghostbb-io_g-api_app_system_model.ApiItem": {
             "type": "object",
             "properties": {
@@ -1624,28 +1770,6 @@
                     "type": "string"
                 },
                 "updatedAt": {
-                    "type": "string"
-                }
-            }
-        },
-        "github_com_Ghostbb-io_g-api_app_system_model.ApiRequest": {
-            "type": "object",
-            "properties": {
-                "method": {
-                    "type": "string"
-                },
-                "path": {
-                    "type": "string"
-                }
-            }
-        },
-        "github_com_Ghostbb-io_g-api_app_system_model.ApiResponse": {
-            "type": "object",
-            "properties": {
-                "method": {
-                    "type": "string"
-                },
-                "path": {
                     "type": "string"
                 }
             }
@@ -1702,6 +1826,20 @@
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RoleItem"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
+        "github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_UserItem": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.UserItem"
                     }
                 },
                 "total": {
@@ -2075,20 +2213,6 @@
                 }
             }
         },
-        "github_com_Ghostbb-io_g-api_app_system_model.RoleListResponse": {
-            "type": "object",
-            "properties": {
-                "role": {
-                    "type": "string"
-                },
-                "roleName": {
-                    "type": "string"
-                },
-                "status": {
-                    "type": "boolean"
-                }
-            }
-        },
         "github_com_Ghostbb-io_g-api_app_system_model.RolesRequest": {
             "type": "object",
             "properties": {
@@ -2134,6 +2258,14 @@
                 }
             }
         },
+        "github_com_Ghostbb-io_g-api_app_system_model.SetUserStatusRequest": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "boolean"
+                }
+            }
+        },
         "github_com_Ghostbb-io_g-api_app_system_model.UserInfoResponse": {
             "type": "object",
             "properties": {
@@ -2168,6 +2300,44 @@
                     "type": "string"
                 },
                 "uuid": {
+                    "type": "string"
+                }
+            }
+        },
+        "github_com_Ghostbb-io_g-api_app_system_model.UserItem": {
+            "type": "object",
+            "properties": {
+                "createdAt": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "mobile": {
+                    "type": "string"
+                },
+                "nickName": {
+                    "type": "string"
+                },
+                "realName": {
+                    "type": "string"
+                },
+                "remark": {
+                    "type": "string"
+                },
+                "roles": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "username": {
                     "type": "string"
                 }
             }

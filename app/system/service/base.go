@@ -29,6 +29,9 @@ func (base) Login(in model.LoginRequest) (model.LoginResponse, error) {
 	if err := global.GB_DB.Preload("Roles").First(&user, "username = ?", in.Username).Error; err != nil {
 		return model.LoginResponse{}, err
 	}
+	if !user.Status {
+		return model.LoginResponse{}, errors.New("此使用者已被凍結")
+	}
 	if !utils.BcryptCheck(user.Password, in.Password) {
 		return model.LoginResponse{}, errors.New("account or password incorrect")
 	}

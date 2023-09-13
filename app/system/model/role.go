@@ -4,12 +4,6 @@ type AddRoleRequest struct {
 	RoleItem
 }
 
-type RoleListResponse struct {
-	Role     string `json:"role"`
-	RoleName string `json:"roleName"`
-	Status   bool   `json:"status"`
-}
-
 type SetStatusRequest struct {
 	Status bool `json:"status"`
 }

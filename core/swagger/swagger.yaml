@@ -115,6 +115,33 @@ definitions:
       status:
         type: boolean
     type: object
+  github_com_Ghostbb-io_g-api_app_system_model.AddUserRequest:
+    properties:
+      createdAt:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      mobile:
+        type: string
+      nickName:
+        type: string
+      password:
+        type: string
+      realName:
+        type: string
+      remark:
+        type: string
+      roles:
+        items:
+          type: string
+        type: array
+      status:
+        type: boolean
+      username:
+        type: string
+    type: object
   github_com_Ghostbb-io_g-api_app_system_model.ApiItem:
     properties:
       createdAt:
@@ -130,20 +157,6 @@ definitions:
       path:
         type: string
       updatedAt:
-        type: string
-    type: object
-  github_com_Ghostbb-io_g-api_app_system_model.ApiRequest:
-    properties:
-      method:
-        type: string
-      path:
-        type: string
-    type: object
-  github_com_Ghostbb-io_g-api_app_system_model.ApiResponse:
-    properties:
-      method:
-        type: string
-      path:
         type: string
     type: object
   github_com_Ghostbb-io_g-api_app_system_model.ApiTree:
@@ -180,6 +193,15 @@ definitions:
       items:
         items:
           $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RoleItem'
+        type: array
+      total:
+        type: integer
+    type: object
+  github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_UserItem:
+    properties:
+      items:
+        items:
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.UserItem'
         type: array
       total:
         type: integer
@@ -436,15 +458,6 @@ definitions:
       status:
         type: boolean
     type: object
-  github_com_Ghostbb-io_g-api_app_system_model.RoleListResponse:
-    properties:
-      role:
-        type: string
-      roleName:
-        type: string
-      status:
-        type: boolean
-    type: object
   github_com_Ghostbb-io_g-api_app_system_model.RolesRequest:
     properties:
       roles:
@@ -474,6 +487,11 @@ definitions:
       status:
         type: boolean
     type: object
+  github_com_Ghostbb-io_g-api_app_system_model.SetUserStatusRequest:
+    properties:
+      status:
+        type: boolean
+    type: object
   github_com_Ghostbb-io_g-api_app_system_model.UserInfoResponse:
     properties:
       avatar:
@@ -497,6 +515,31 @@ definitions:
       username:
         type: string
       uuid:
+        type: string
+    type: object
+  github_com_Ghostbb-io_g-api_app_system_model.UserItem:
+    properties:
+      createdAt:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      mobile:
+        type: string
+      nickName:
+        type: string
+      realName:
+        type: string
+      remark:
+        type: string
+      roles:
+        items:
+          type: string
+        type: array
+      status:
+        type: boolean
+      username:
         type: string
     type: object
   github_com_Ghostbb-io_g-api_app_system_model_table.Meta:
@@ -731,143 +774,6 @@ paths:
       summary: 清除資料庫緩存
       tags:
       - 緩存
-  /v1/casbin:
-    delete:
-      parameters:
-      - description: 路由資訊
-        in: body
-        name: ApiInfo
-        required: true
-        schema:
-          items:
-            $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ApiRequest'
-          type: array
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 操作成功
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
-            - properties:
-                msg:
-                  type: string
-              type: object
-      security:
-      - BearerToken: []
-      summary: 移除api
-      tags:
-      - casbin
-    get:
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 操作成功
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
-            - properties:
-                data:
-                  items:
-                    $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ApiResponse'
-                  type: array
-                msg:
-                  type: string
-              type: object
-      security:
-      - BearerToken: []
-      summary: 獲取所有Api
-      tags:
-      - casbin
-  /v1/casbin/{role}:
-    get:
-      parameters:
-      - description: 角色
-        in: path
-        name: role
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 操作成功
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
-            - properties:
-                msg:
-                  type: string
-              type: object
-      security:
-      - BearerToken: []
-      summary: 根據角色獲取api列表
-      tags:
-      - casbin
-    post:
-      parameters:
-      - description: 角色
-        in: path
-        name: role
-        required: true
-        type: string
-      - description: 路由資訊
-        in: body
-        name: ApiInfo
-        required: true
-        schema:
-          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ApiRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 操作成功
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
-            - properties:
-                msg:
-                  type: string
-              type: object
-      security:
-      - BearerToken: []
-      summary: 新增一筆權限
-      tags:
-      - casbin
-    put:
-      parameters:
-      - description: 角色
-        in: path
-        name: role
-        required: true
-        type: string
-      - description: 路由資訊
-        in: body
-        name: ApiInfo
-        required: true
-        schema:
-          items:
-            $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ApiRequest'
-          type: array
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: 操作成功
-          schema:
-            allOf:
-            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
-            - properties:
-                msg:
-                  type: string
-              type: object
-      security:
-      - BearerToken: []
-      summary: 更新api權限
-      tags:
-      - casbin
   /v1/login:
     post:
       parameters:
@@ -1082,7 +988,7 @@ paths:
             - properties:
                 data:
                   items:
-                    $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RoleListResponse'
+                    $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RoleItem'
                   type: array
                 msg:
                   type: string
@@ -1243,6 +1149,107 @@ paths:
       summary: 根據頁數獲取所有角色
       tags:
       - 角色
+  /v1/user:
+    post:
+      parameters:
+      - description: 使用者
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.AddUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 新增使用者
+      tags:
+      - 使用者
+  /v1/user/{id}:
+    delete:
+      parameters:
+      - description: 使用者id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 刪除使用者
+      tags:
+      - 使用者
+    get:
+      parameters:
+      - description: 使用者id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.UserInfoResponse'
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 獲取使用者資訊
+      tags:
+      - 使用者
+    put:
+      parameters:
+      - description: 使用者id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 編輯使用者
+      tags:
+      - 使用者
   /v1/user/{id}/roles:
     put:
       parameters:
@@ -1272,6 +1279,62 @@ paths:
       security:
       - BearerToken: []
       summary: 更新角色
+      tags:
+      - 使用者
+  /v1/user/{id}/status:
+    patch:
+      parameters:
+      - description: 使用者id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: 狀態
+        in: body
+        name: status
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.SetUserStatusRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 更新使用者狀態
+      tags:
+      - 使用者
+  /v1/user/check/username:
+    get:
+      parameters:
+      - description: 使用者名稱
+        in: query
+        name: username
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 確認使用者是否存在
       tags:
       - 使用者
   /v1/user/me:
@@ -1339,6 +1402,46 @@ paths:
       security:
       - BearerToken: []
       summary: 獲取自身menu
+      tags:
+      - 使用者
+  /v1/user/page:
+    get:
+      parameters:
+      - description: 頁數
+        in: query
+        name: page
+        required: true
+        type: integer
+      - description: 每頁幾筆
+        in: query
+        name: pageSize
+        required: true
+        type: integer
+      - description: 使用者名稱
+        in: query
+        name: username
+        type: string
+      - description: 暱稱
+        in: query
+        name: nickName
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.BasicFetchResult-github_com_Ghostbb-io_g-api_app_system_model_UserItem'
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 根據page, pageSize獲取使用者列表
       tags:
       - 使用者
   /v1/user/password:

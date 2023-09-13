@@ -26,7 +26,6 @@ func New() []any {
 		// 回傳Api群組
 		&v1.BaseApi{service.BaseService},
 		&v1.UserApi{service.UserService},
-		&v1.CasbinApi{service.CasbinService},
 		&v1.MenuApi{service.MenuService},
 		&v1.RoleApi{service.RoleService},
 		&v1.CacheApi{service.CacheService},

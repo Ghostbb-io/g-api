@@ -14,7 +14,7 @@ import (
 var RoleService Role = new(role)
 
 type Role interface {
-	RoleList() ([]model.RoleListResponse, error)
+	RoleList() ([]model.RoleItem, error)
 	RoleListByPage(model.RolePageParams) (model.BasicFetchResult[model.RoleItem], error)
 	SetStatus(string, model.SetStatusRequest) error
 	Update(string, model.EditRoleRequest) error
@@ -25,14 +25,20 @@ type Role interface {
 type role struct{}
 
 // RoleList 獲取角色列表
-func (role) RoleList() ([]model.RoleListResponse, error) {
+func (role) RoleList() ([]model.RoleItem, error) {
 	var roles []table.SysRole
 	if err := global.GB_DB.Find(&roles).Error; err != nil {
 		return nil, err
 	}
-	result := make([]model.RoleListResponse, 0)
+	result := make([]model.RoleItem, 0)
 	for _, role := range roles {
-		result = append(result, model.RoleListResponse{Role: role.Role, RoleName: role.RoleName})
+		result = append(result, model.RoleItem{
+			Role:      role.Role,
+			RoleName:  role.RoleName,
+			Status:    role.Status,
+			Remark:    role.Remark,
+			CreatedAt: role.CreatedAt.Format("2006-01-02 - 15:04:05"),
+		})
 	}
 	return result, nil
 }

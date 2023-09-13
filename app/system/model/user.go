@@ -12,6 +12,7 @@ type UserInfoResponse struct {
 	Mobile   string     `json:"mobile"`
 	Avatar   string     `json:"avatar"`
 	Desc     string     `json:"desc"`
+	Status   bool       `json:"status"`
 	Roles    []RoleInfo `json:"roles"`
 }
 
@@ -37,4 +38,41 @@ type RouteResponse struct {
 	Redirect  string           `json:"redirect"`
 	Meta      table.Meta       `json:"meta"`
 	Children  []*RouteResponse `json:"children"`
+}
+
+type UserPageParams struct {
+	BasicPageParams
+	UserParams
+}
+
+type UserParams struct {
+	Username string `form:"username"`
+	NickName string `form:"nickName"`
+	Status   string `form:"status"`
+}
+
+type UserItem struct {
+	ID        uint     `json:"id"`
+	Username  string   `json:"username"`
+	NickName  string   `json:"nickName"`
+	RealName  string   `json:"realName"`
+	Email     string   `json:"email"`
+	Mobile    string   `json:"mobile"`
+	Remark    string   `json:"remark"`
+	CreatedAt string   `json:"createdAt"`
+	Status    bool     `json:"status"`
+	Roles     []string `json:"roles"`
+}
+
+type EditUserRequest struct {
+	UserItem
+}
+
+type AddUserRequest struct {
+	UserItem
+	Password string `json:"password"`
+}
+
+type SetUserStatusRequest struct {
+	Status bool `json:"status"`
 }
