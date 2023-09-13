@@ -1,0 +1,1 @@
+import{d as t}from"./index.js";const s=e=>t.get({url:"/v1/menu/tree",params:e}),r=e=>t.get({url:"/v1/menu",params:e}),o=e=>t.post({url:"/v1/menu",params:e}),a=e=>t.delete({url:`/v1/menu/${e}`}),d=(e,u)=>t.put({url:`/v1/menu/${e}`,params:u});export{o as a,r as b,a as d,d as e,s as g};

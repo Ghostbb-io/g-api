@@ -1,0 +1,1 @@
+window.__PRODUCTION__7BA174067CFB7D71__CONF__={"VITE_GLOB_APP_TITLE":"管理系統","VITE_GLOB_API_URL":"http://localhost:9000","VITE_GLOB_UPLOAD_URL":"/upload","VITE_GLOB_API_URL_PREFIX":"/api"};Object.freeze(window.__PRODUCTION__7BA174067CFB7D71__CONF__);Object.defineProperty(window,"__PRODUCTION__7BA174067CFB7D71__CONF__",{configurable:false,writable:false,});

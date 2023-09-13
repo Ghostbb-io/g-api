@@ -1,0 +1,1 @@
+import{d as e}from"./index.js";const u=s=>e.get({url:"/v1/user/page",params:s}),a=s=>e.post({url:"/v1/user",params:s}),o=(s,t)=>e.put({url:`/v1/user/${s}`,params:t}),d=s=>e.delete({url:`/v1/user/${s}`}),l=s=>e.get({url:`/v1/user/${s}`}),p=(s,t)=>e.patch({url:`/v1/user/${s}/status`,params:{status:t}});export{a,d,o as e,u as g,p as s,l as u};
