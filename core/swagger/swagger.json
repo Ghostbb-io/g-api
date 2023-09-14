@@ -1431,6 +1431,60 @@
                 }
             }
         },
+        "/v1/user/{id}/password": {
+            "patch": {
+                "security": [
+                    {
+                        "BearerToken": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "使用者"
+                ],
+                "summary": "重製密碼",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "使用者id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "密碼",
+                        "name": "password",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ResetPassRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "操作成功",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "msg": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/v1/user/{id}/roles": {
             "put": {
                 "security": [
@@ -2170,6 +2224,14 @@
                 }
             }
         },
+        "github_com_Ghostbb-io_g-api_app_system_model.ResetPassRequest": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
         "github_com_Ghostbb-io_g-api_app_system_model.RoleInfo": {
             "type": "object",
             "properties": {
@@ -2287,11 +2349,17 @@
                 "realName": {
                     "type": "string"
                 },
+                "remark": {
+                    "type": "string"
+                },
                 "roles": {
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RoleInfo"
                     }
+                },
+                "status": {
+                    "type": "boolean"
                 },
                 "userId": {
                     "type": "integer"

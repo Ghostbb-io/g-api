@@ -13,6 +13,7 @@ type UserInfoResponse struct {
 	Avatar   string     `json:"avatar"`
 	Desc     string     `json:"desc"`
 	Status   bool       `json:"status"`
+	Remark   string     `json:"remark"`
 	Roles    []RoleInfo `json:"roles"`
 }
 
@@ -75,4 +76,8 @@ type AddUserRequest struct {
 
 type SetUserStatusRequest struct {
 	Status bool `json:"status"`
+}
+
+type ResetPassRequest struct {
+	Password string `json:"password"`
 }

@@ -430,6 +430,11 @@ definitions:
       username:
         type: string
     type: object
+  github_com_Ghostbb-io_g-api_app_system_model.ResetPassRequest:
+    properties:
+      password:
+        type: string
+    type: object
   github_com_Ghostbb-io_g-api_app_system_model.RoleInfo:
     properties:
       role:
@@ -506,10 +511,14 @@ definitions:
         type: string
       realName:
         type: string
+      remark:
+        type: string
       roles:
         items:
           $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.RoleInfo'
         type: array
+      status:
+        type: boolean
       userId:
         type: integer
       username:
@@ -1248,6 +1257,37 @@ paths:
       security:
       - BearerToken: []
       summary: 編輯使用者
+      tags:
+      - 使用者
+  /v1/user/{id}/password:
+    patch:
+      parameters:
+      - description: 使用者id
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: 密碼
+        in: body
+        name: password
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_Ghostbb-io_g-api_app_system_model.ResetPassRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 操作成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/github_com_Ghostbb-io_g-api_pkg_utils_response.Response'
+            - properties:
+                msg:
+                  type: string
+              type: object
+      security:
+      - BearerToken: []
+      summary: 重製密碼
       tags:
       - 使用者
   /v1/user/{id}/roles:

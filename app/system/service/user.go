@@ -8,6 +8,7 @@ import (
 	"github.com/Ghostbb-io/g-api/pkg/global"
 	"github.com/Ghostbb-io/g-api/pkg/jwtx/token"
 	"github.com/Ghostbb-io/g-api/pkg/utils"
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
 
@@ -25,6 +26,7 @@ type User interface {
 	AddUser(model.AddUserRequest) error
 	DelUser(uint) error
 	SetStatus(uint, model.SetUserStatusRequest) error
+	ResetPass(uint, model.ResetPassRequest) error
 }
 
 type user struct{}
@@ -50,6 +52,7 @@ func (user) UserInfo(userID uint) (model.UserInfoResponse, error) {
 		Avatar:   user.Avatar,
 		Desc:     user.Desc,
 		Status:   user.Status,
+		Remark:   user.Remark,
 		Roles:    roles,
 	}, nil
 }
@@ -234,6 +237,7 @@ func (user) AddUser(in model.AddUserRequest) error {
 	{
 		user.Username = in.Username
 		user.Password = utils.BcryptHash(in.Password)
+		user.UUID, _ = uuid.NewUUID()
 		user.NickName = in.NickName
 		user.RealName = in.RealName
 		user.Email = in.Email
@@ -254,4 +258,9 @@ func (user) DelUser(userID uint) error {
 // SetStatus 更新狀態
 func (user) SetStatus(userID uint, in model.SetUserStatusRequest) error {
 	return global.GB_DB.Model(&table.SysUser{}).Where("id = ?", userID).Update("status", in.Status).Error
+}
+
+// ResetPass 重製密碼
+func (user) ResetPass(userID uint, in model.ResetPassRequest) error {
+	return global.GB_DB.Model(&table.SysUser{}).Where("id = ?", userID).Update("password", utils.BcryptHash(in.Password)).Error
 }

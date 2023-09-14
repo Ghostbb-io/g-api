@@ -32,6 +32,7 @@ func (u *UserApi) Register(ver ginx.VersionFunc) {
 		v1Private.POST("", u.addUser)
 		v1Private.DELETE(":id", u.delUser)
 		v1Private.PATCH(":id/status", u.setStatus)
+		v1Private.PATCH(":id/password", u.resetPass)
 	}
 }
 
@@ -263,6 +264,29 @@ func (u *UserApi) setStatus(c *gin.Context) {
 		return
 	}
 	err := u.SetStatus(id, json)
+	if err != nil {
+		response.FailWithMessage(c, err.Error())
+		return
+	}
+	response.Ok(c)
+}
+
+// @Tags      使用者
+// @Summary   重製密碼
+// @Produce   application/json
+// @Security  BearerToken
+// @Param     id path string true "使用者id"
+// @Param     password body model.ResetPassRequest true "密碼"
+// @Success   200  {object}  response.Response{msg=string} "操作成功"
+// @Router    /v1/user/{id}/password [patch]
+func (u *UserApi) resetPass(c *gin.Context) {
+	id := uint(ginx.ParseParamID(c, "id"))
+	var json model.ResetPassRequest
+	if err := ginx.ParseJSON(c, &json); err != nil {
+		response.FailWithMessage(c, err.Error())
+		return
+	}
+	err := u.ResetPass(id, json)
 	if err != nil {
 		response.FailWithMessage(c, err.Error())
 		return
