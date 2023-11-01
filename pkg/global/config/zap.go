@@ -11,7 +11,6 @@ type Zap struct {
 	Prefix        string `mapstructure:"prefix" json:"prefix" yaml:"prefix"`                         // log前綴
 	Format        string `mapstructure:"format" json:"format" yaml:"format"`                         // console 輸出普通文本，json輸出json格式
 	Director      string `mapstructure:"director" json:"director"  yaml:"director"`                  // log資料夾
-	GormDirector  string `mapstructure:"gorm-director" json:"gorm-director"  yaml:"gorm-director"`   // gorm log 資料夾
 	EncodeLevel   string `mapstructure:"encode-level" json:"encode-level" yaml:"encode-level"`       // 編碼級別
 	StacktraceKey string `mapstructure:"stacktrace-key" json:"stacktrace-key" yaml:"stacktrace-key"` // 堆疊名稱
 

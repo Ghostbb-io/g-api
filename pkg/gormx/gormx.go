@@ -4,7 +4,6 @@ import (
 	"errors"
 	"github.com/Ghostbb-io/g-api/pkg/gormx/gorm-cache/cache"
 	"github.com/Ghostbb-io/g-api/pkg/gormx/gorm-cache/config"
-	"github.com/Ghostbb-io/g-api/pkg/gormx/gzap"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 )
@@ -35,8 +34,8 @@ type Config struct {
 }
 
 type Zap struct {
-	Logger *zap.Logger
-	Config gzap.Config // if Logger is null
+	LogFolderName string
+	Logger        *zap.Logger
 }
 
 func New(cfg *Config, _cache ...*config.CacheConfig) (db *gorm.DB, err error) {

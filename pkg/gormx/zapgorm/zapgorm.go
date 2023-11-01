@@ -18,11 +18,11 @@ type ContextFn func(ctx context.Context) []zapcore.Field
 type Logger struct {
 	ZapLogger *zap.Logger
 	Config
-	Context ContextFn
+	Context  ContextFn
+	business zapcore.Field // custom log path
 }
 
 type Config struct {
-	AliasName                 string
 	SlowThreshold             time.Duration
 	SkipCallerLookup          bool
 	IgnoreRecordNotFoundError bool
@@ -39,42 +39,40 @@ func New(zapLogger *zap.Logger, config Config) *Logger {
 	return l
 }
 
-func (l *Logger) LogMode(level gormlogger.LogLevel) gormlogger.Interface {
-	return &Logger{
-		ZapLogger: l.ZapLogger,
-		Config: Config{
-			AliasName:                 l.AliasName,
-			SlowThreshold:             l.SlowThreshold,
-			SkipCallerLookup:          l.SkipCallerLookup,
-			IgnoreRecordNotFoundError: l.IgnoreRecordNotFoundError,
-			LogLevel:                  level,
-		},
-		Context: l.Context,
-	}
+func (l *Logger) SetFolderName(name string) {
+	l.business = zap.String("business", name)
 }
 
-func (l Logger) Info(ctx context.Context, str string, args ...interface{}) {
+func (l *Logger) LogMode(level gormlogger.LogLevel) gormlogger.Interface {
+	l.LogLevel = level
+	if l.business.Key == "" {
+		l.business = zap.String("business", "gorm")
+	}
+	return l
+}
+
+func (l *Logger) Info(ctx context.Context, str string, args ...interface{}) {
 	if l.LogLevel < gormlogger.Info {
 		return
 	}
 	l.logger(ctx).Sugar().Infof(str, args...)
 }
 
-func (l Logger) Warn(ctx context.Context, str string, args ...interface{}) {
+func (l *Logger) Warn(ctx context.Context, str string, args ...interface{}) {
 	if l.LogLevel < gormlogger.Warn {
 		return
 	}
 	l.logger(ctx).Sugar().Warnf(str, args...)
 }
 
-func (l Logger) Error(ctx context.Context, str string, args ...interface{}) {
+func (l *Logger) Error(ctx context.Context, str string, args ...interface{}) {
 	if l.LogLevel < gormlogger.Error {
 		return
 	}
 	l.logger(ctx).Sugar().Errorf(str, args...)
 }
 
-func (l Logger) Trace(ctx context.Context, begin time.Time, fc func() (string, int64), err error) {
+func (l *Logger) Trace(ctx context.Context, begin time.Time, fc func() (string, int64), err error) {
 	if l.LogLevel <= 0 {
 		return
 	}
@@ -83,20 +81,23 @@ func (l Logger) Trace(ctx context.Context, begin time.Time, fc func() (string, i
 	switch {
 	case err != nil && l.LogLevel >= gormlogger.Error && (!l.IgnoreRecordNotFoundError || !errors.Is(err, gorm.ErrRecordNotFound)):
 		sql, rows := fc()
-		logger.Error("trace("+l.AliasName+")",
+		logger.Error("trace",
+			l.business,
 			zap.Error(err),
 			zap.String("elapsed", fmt.Sprintf("%.3fms", float64(elapsed.Nanoseconds())/1e6)),
 			zap.Int64("rows", rows),
 			zap.String("sql", sql))
 	case l.SlowThreshold != 0 && elapsed > l.SlowThreshold && l.LogLevel >= gormlogger.Warn:
 		sql, rows := fc()
-		logger.Warn("trace("+l.AliasName+")",
+		logger.Warn("trace",
+			l.business,
 			zap.String("elapsed", fmt.Sprintf("%.3fms", float64(elapsed.Nanoseconds())/1e6)),
 			zap.Int64("rows", rows),
 			zap.String("sql", sql))
 	case l.LogLevel >= gormlogger.Info:
 		sql, rows := fc()
-		logger.Info("trace("+l.AliasName+")",
+		logger.Info("trace",
+			l.business,
 			zap.String("elapsed", fmt.Sprintf("%.3fms", float64(elapsed.Nanoseconds())/1e6)),
 			zap.Int64("rows", rows),
 			zap.String("sql", sql))
@@ -104,11 +105,10 @@ func (l Logger) Trace(ctx context.Context, begin time.Time, fc func() (string, i
 }
 
 var (
-	gormPackage    = "gorm.io"
-	zapgormPackage = "zapgorm"
+	gormPackage = "gorm.io"
 )
 
-func (l Logger) logger(ctx context.Context) *zap.Logger {
+func (l *Logger) logger(ctx context.Context) *zap.Logger {
 	logger := l.ZapLogger
 	if l.Context != nil {
 		fields := l.Context(ctx)

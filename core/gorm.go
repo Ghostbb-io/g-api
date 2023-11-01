@@ -1,13 +1,12 @@
 package core
 
 import (
+	"fmt"
 	"github.com/Ghostbb-io/g-api/pkg/global"
 	"github.com/Ghostbb-io/g-api/pkg/gormx"
 	"github.com/Ghostbb-io/g-api/pkg/gormx/gorm-cache/config"
 	"github.com/Ghostbb-io/g-api/pkg/gormx/gorm-cache/storage"
-	"github.com/Ghostbb-io/g-api/pkg/gormx/gzap"
 	"github.com/Ghostbb-io/g-api/pkg/gormx/zapgorm"
-	"github.com/Ghostbb-io/g-api/pkg/utils"
 	"go.uber.org/zap"
 	"gorm.io/gorm"
 	"os"
@@ -15,19 +14,6 @@ import (
 
 func InitGorm() *gorm.DB {
 	var db *gorm.DB
-	// zap 設定
-	utils.MkdirIfNotExist(global.GB_CONFIG.Zap.GormDirector)
-	zapConfig := gzap.Config{
-		Level:         global.GB_CONFIG.Zap.Level,
-		Prefix:        "[Gorm] ",
-		Format:        global.GB_CONFIG.Zap.Format,
-		Director:      global.GB_CONFIG.Zap.GormDirector,
-		EncodeLevel:   global.GB_CONFIG.Zap.EncodeLevel,
-		StacktraceKey: global.GB_CONFIG.Zap.StacktraceKey,
-		MaxAge:        global.GB_CONFIG.Zap.MaxAge,
-		ShowLine:      global.GB_CONFIG.Zap.ShowLine,
-		LogInConsole:  global.GB_CONFIG.Zap.LogInConsole,
-	}
 
 	// database 設定
 	dbConfig := &gormx.Config{
@@ -37,7 +23,10 @@ func InitGorm() *gorm.DB {
 		MaxOpenConns: global.GB_CONFIG.Gorm.MaxOpenConns,
 		LogMode:      global.GB_CONFIG.Gorm.LogMode,
 		UseZap:       global.GB_CONFIG.Gorm.LogZap,
-		Zap:          gormx.Zap{Config: zapConfig},
+		Zap: gormx.Zap{
+			LogFolderName: fmt.Sprintf("gorm(%s)", "main"),
+			Logger:        global.GB_LOG,
+		},
 	}
 
 	// 緩存設定
@@ -89,7 +78,10 @@ func InitMGorm() map[string]*gorm.DB {
 			MaxOpenConns: mdb.MaxOpenConns,
 			LogMode:      global.GB_CONFIG.Gorm.LogMode,
 			UseZap:       global.GB_CONFIG.Gorm.LogZap,
-			Zap:          gormx.Zap{Logger: logger},
+			Zap: gormx.Zap{
+				LogFolderName: fmt.Sprintf("gorm(%s)", mdb.AliasName),
+				Logger:        logger,
+			},
 		}
 		var db *gorm.DB
 		if global.GB_CONFIG.Gorm.Cache {

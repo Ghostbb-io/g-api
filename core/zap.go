@@ -9,7 +9,6 @@ import (
 )
 
 // InitZap 獲取 zap.Logger
-// Author [YuWeiGhostbb](https://github.com/YuWeiGhostbb)
 func InitZap() (logger *zap.Logger) {
 	// 判斷 config.yaml 設定的 Director 資料夾是否存在
 	utils.MkdirIfNotExist(global.GB_CONFIG.Zap.Director)

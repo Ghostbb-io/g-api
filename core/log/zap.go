@@ -1,8 +1,8 @@
 package log
 
 import (
-	"fmt"
 	"github.com/Ghostbb-io/g-api/pkg/global"
+	"os"
 	"time"
 
 	"go.uber.org/zap"
@@ -14,7 +14,6 @@ var Zap = new(_zap)
 type _zap struct{}
 
 // GetZapCores 根據配置文件的Level獲取 []zapcore.Core
-// Author [YuWeiGhostbb](https://github.com/YuWeiGhostbb)
 func (z *_zap) GetZapCores() []zapcore.Core {
 	cores := make([]zapcore.Core, 0, 7)
 	for level := global.GB_CONFIG.Zap.TransportLevel(); level <= zapcore.FatalLevel; level++ {
@@ -24,7 +23,6 @@ func (z *_zap) GetZapCores() []zapcore.Core {
 }
 
 // GetEncoder 獲取 zapcore.Encoder
-// Author [YuWeiGhostbb](https://github.com/YuWeiGhostbb)
 func (z *_zap) GetEncoder() zapcore.Encoder {
 	if global.GB_CONFIG.Zap.Format == "json" {
 		return zapcore.NewJSONEncoder(z.GetEncoderConfig())
@@ -33,7 +31,6 @@ func (z *_zap) GetEncoder() zapcore.Encoder {
 }
 
 // GetEncoderConfig 獲取 zapcore.EncoderConfig
-// Author [YuWeiGhostbb](https://github.com/YuWeiGhostbb)
 func (z *_zap) GetEncoderConfig() zapcore.EncoderConfig {
 	return zapcore.EncoderConfig{
 		MessageKey:     "message",
@@ -51,24 +48,17 @@ func (z *_zap) GetEncoderConfig() zapcore.EncoderConfig {
 }
 
 // CustomTimeEncoder 自定義log輸出時間格式
-// Author [YuWeiGhostbb](https://github.com/YuWeiGhostbb)
 func (z *_zap) CustomTimeEncoder(t time.Time, encoder zapcore.PrimitiveArrayEncoder) {
 	encoder.AppendString(global.GB_CONFIG.Zap.Prefix + t.Format("2006/01/02 - 15:04:05.000"))
 }
 
 // GetEncoderCore 獲取Encoder的 zapcore.Core
-// Author [YuWeiGhostbb](https://github.com/YuWeiGhostbb)
 func (z *_zap) GetEncoderCore(l zapcore.Level, level zap.LevelEnablerFunc) zapcore.Core {
-	writer, err := FileRotatelogs.GetWriteSyncer(l.String()) // 使用file-rotatelogs进行日志分割
-	if err != nil {
-		fmt.Printf("Get Write Syncer Failed err:%v", err.Error())
-		return nil
-	}
+	writer := z.GetWriteSyncer(l.String()) // 日誌分割
 	return zapcore.NewCore(z.GetEncoder(), writer, level)
 }
 
 // GetLevelPriority 根據 zapcore.Level 獲取 zap.LevelEnablerFunc
-// Author [YuWeiGhostbb](https://github.com/YuWeiGhostbb)
 func (z *_zap) GetLevelPriority(level zapcore.Level) zap.LevelEnablerFunc {
 	switch level {
 	case zapcore.DebugLevel:
@@ -104,4 +94,13 @@ func (z *_zap) GetLevelPriority(level zapcore.Level) zap.LevelEnablerFunc {
 			return level == zap.DebugLevel
 		}
 	}
+}
+
+// GetWriteSyncer 獲取 zapcore.WriteSyncer
+func (z *_zap) GetWriteSyncer(level string) zapcore.WriteSyncer {
+	fileWriter := NewCutter(global.GB_CONFIG.Zap.Director, level, WithCutterFormat("2006-01-02"))
+	if global.GB_CONFIG.Zap.LogInConsole {
+		return zapcore.NewMultiWriteSyncer(zapcore.AddSync(os.Stdout), zapcore.AddSync(fileWriter))
+	}
+	return zapcore.AddSync(fileWriter)
 }

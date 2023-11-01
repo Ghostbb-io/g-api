@@ -1,7 +1,6 @@
 package gormx
 
 import (
-	"github.com/Ghostbb-io/g-api/pkg/gormx/gzap"
 	"github.com/Ghostbb-io/g-api/pkg/gormx/zapgorm"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -49,15 +48,14 @@ func logInterface(cfg *Config) logger.Interface {
 }
 
 func zapLogger(zap Zap) logger.Interface {
-	if zap.Logger == nil {
-		zap.Logger = gzap.New(zap.Config)
-	}
-	return zapgorm.New(zap.Logger, zapgorm.Config{
+	l := zapgorm.New(zap.Logger, zapgorm.Config{
 		SlowThreshold:             1 * time.Second,
 		LogLevel:                  logger.Info,
 		IgnoreRecordNotFoundError: true,
-		SkipCallerLookup:          !zap.Config.ShowLine,
+		SkipCallerLookup:          false,
 	})
+	l.SetFolderName(zap.LogFolderName)
+	return l
 }
 
 func baseLogger() logger.Interface {
