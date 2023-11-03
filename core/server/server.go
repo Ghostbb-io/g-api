@@ -30,11 +30,11 @@ func Run() {
 		https = "http"
 	}
 	fmt.Printf(`
-	歡迎使用 Ghostbb Api 
-	預設自動化文檔：%s://127.0.0.1%s/api/swagger/index.html
+	HRMS api 
+	Default swagger url：%s://127.0.0.1%s/api/swagger/index.html
 	`, https, port)
 
-	fmt.Println("伺服器啟動完成!!!")
+	fmt.Println("Server startup completed!!!")
 	if global.GB_CONFIG.System.Https {
 		global.GB_LOG.Error(server.ListenAndServeTLS("./SSL/certificate.crt", "./SSL/private.key").Error())
 	} else {

@@ -104,8 +104,9 @@ func (l *Logger) Trace(ctx context.Context, begin time.Time, fc func() (string, 
 	}
 }
 
-var (
+const (
 	gormPackage = "gorm.io"
+	testFile    = "_test.go"
 )
 
 func (l *Logger) logger(ctx context.Context) *zap.Logger {
@@ -119,9 +120,10 @@ func (l *Logger) logger(ctx context.Context) *zap.Logger {
 		return logger
 	}
 
+	// Caller lookup
 	for i := 2; i < 15; i++ {
 		_, file, _, ok := runtime.Caller(i)
-		if ok && (!strings.Contains(file, gormPackage) || strings.HasSuffix(file, "_test.go")) {
+		if ok && (!strings.Contains(file, gormPackage) || strings.HasSuffix(file, testFile)) {
 			return logger.WithOptions(zap.AddCallerSkip(i - 1))
 		}
 	}

@@ -18,18 +18,18 @@ func Casbin() gin.HandlerFunc {
 		userId := ginx.GetUserID(c)
 
 		// 放行有root角色的使用者
-		// if isRoot, _ := cb.HasRoot(userId); !isRoot {
-		obj := strings.TrimPrefix(c.Request.URL.Path, global.GB_CONFIG.System.RouterPrefix)
-		act := c.Request.Method
-		sub := strconv.Itoa(int(userId))
+		if isRoot, _ := cb.HasRoot(userId); !isRoot {
+			obj := strings.TrimPrefix(c.Request.URL.Path, global.GB_CONFIG.System.RouterPrefix)
+			act := c.Request.Method
+			sub := strconv.Itoa(int(userId))
 
-		success, _ := e.Enforce(sub, obj, act)
-		if !success {
-			response.FailWithDetailed(c, gin.H{}, "no auth")
-			c.Abort()
-			return
+			success, _ := e.Enforce(sub, obj, act)
+			if !success {
+				response.FailWithDetailed(c, gin.H{}, "no authority")
+				c.Abort()
+				return
+			}
 		}
-		// }
 		c.Next()
 	}
 }

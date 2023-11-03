@@ -48,6 +48,9 @@ func logInterface(cfg *Config) logger.Interface {
 }
 
 func zapLogger(zap Zap) logger.Interface {
+	if zap.Logger == nil {
+		panic("Zap logger not found!")
+	}
 	l := zapgorm.New(zap.Logger, zapgorm.Config{
 		SlowThreshold:             1 * time.Second,
 		LogLevel:                  logger.Info,

@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// Timeout processing
 func Timeout(duration time.Duration) gin.HandlerFunc {
 	return timeout.New(
 		timeout.WithTimeout(duration),

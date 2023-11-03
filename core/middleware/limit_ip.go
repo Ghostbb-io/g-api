@@ -22,6 +22,7 @@ type LimitConfig struct {
 	Limit int
 }
 
+// LimitWithTime Generate middleware on Config
 func (l LimitConfig) LimitWithTime() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if err := l.CheckOrMark(l.GenerationKey(c), l.Expire, l.Limit); err != nil {
@@ -39,6 +40,7 @@ func DefaultGenerationKey(c *gin.Context) string {
 	return "GB_Limit:" + c.ClientIP()
 }
 
+// DefaultCheckOrMark 檢查
 func DefaultCheckOrMark(key string, expire int, limit int) (err error) {
 	if err = SetLimitWithTime(key, limit, time.Duration(expire)*time.Second); err != nil {
 		global.GB_LOG.Error("limit", zap.Error(err))
@@ -46,7 +48,7 @@ func DefaultCheckOrMark(key string, expire int, limit int) (err error) {
 	return err
 }
 
-// SetLimitWithTime 設置訪問次數
+// SetLimitWithTime Set number of visits
 func SetLimitWithTime(key string, limit int, expiration time.Duration) error {
 	redis := global.GB_REDIS.GetClient()
 	count, err := redis.Exists(context.Background(), key).Result()

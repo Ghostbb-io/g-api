@@ -20,7 +20,6 @@ type Zap struct {
 }
 
 // ZapEncodeLevel 根據 EncodeLevel 返回 zapcore.LevelEncoder
-// Author [YuWeiGhostbb](https://github.com/YuWeiGhostbb)
 func (z *Zap) ZapEncodeLevel() zapcore.LevelEncoder {
 	switch {
 	case z.EncodeLevel == "LowercaseLevelEncoder": // 小寫編碼器(默認)
@@ -37,7 +36,6 @@ func (z *Zap) ZapEncodeLevel() zapcore.LevelEncoder {
 }
 
 // TransportLevel 根據Level轉化為 zapcore.Level
-// Author [YuWeiGhostbb](https://github.com/YuWeiGhostbb)
 func (z *Zap) TransportLevel() zapcore.Level {
 	z.Level = strings.ToLower(z.Level)
 	switch z.Level {

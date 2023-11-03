@@ -42,18 +42,6 @@ gorm:
       max-idle-conns: 10
       max-open-conns: 100
       cache: true
-    - enable: true # 是否開啟此資料庫
-      alias-name: example1 # 資料庫的名稱, 注意：alias-name需要在multiple-dbs中唯一; 不能取"main","main"為系統資料庫名稱
-      type: mssql # mysql, pgsql, mssql, oracle
-      path: localhost
-      port: "1433"
-      config: ""
-      db-name: g-api
-      username: mucgll0328
-      password: Ab@589095
-      max-idle-conns: 10
-      max-open-conns: 100
-      cache: true
 cors:
   # mode說明
   # allow-all: 放行全部

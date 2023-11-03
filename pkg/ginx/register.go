@@ -8,7 +8,7 @@ type Interface interface {
 	Register(VersionFunc)
 }
 
-func Register(p []any) {
+func Register(p ...any) {
 	for _, g := range p { // 遍歷插件裡路由群組
 		g.(Interface).Register(version)
 	}
