@@ -23,6 +23,7 @@ func main() {
 	global.GB_REDIS = core.InitRedis() // 初始化Redis
 	global.GB_DB = core.InitGorm()     // 初始化Gorm
 	global.GB_DBS = core.InitMGorm()   // 初始化多資料庫
+	global.GB_ENG = core.InitEngine()  // 初始化server engine
 
 	defer func() {
 		// 程式關閉前，關閉所有資料庫

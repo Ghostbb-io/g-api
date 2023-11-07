@@ -1,6 +1,7 @@
 package global
 
 import (
+	"github.com/Ghostbb-io/g-api/pkg/ginx"
 	"github.com/Ghostbb-io/g-api/pkg/global/config"
 	"github.com/Ghostbb-io/g-api/pkg/redisx"
 	"github.com/spf13/viper"
@@ -12,6 +13,7 @@ import (
 var (
 	GB_DB     *gorm.DB
 	GB_DBS    map[string]*gorm.DB
+	GB_ENG    *ginx.Engine
 	GB_CONFIG config.Server
 	GB_LOG    *zap.Logger
 	GB_VP     *viper.Viper

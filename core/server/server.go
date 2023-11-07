@@ -2,8 +2,6 @@ package server
 
 import (
 	"fmt"
-	"github.com/Ghostbb-io/g-api/core/router"
-	"github.com/Ghostbb-io/g-api/pkg/ginx"
 	"github.com/Ghostbb-io/g-api/pkg/global"
 	"net/http"
 	"time"
@@ -12,11 +10,10 @@ import (
 )
 
 func Run() {
-	router.Init()
 	port := fmt.Sprintf(":%d", global.GB_CONFIG.System.Port)
 	server := &http.Server{
 		Addr:           port,
-		Handler:        ginx.GetEngine(),
+		Handler:        global.GB_ENG,
 		ReadTimeout:    20 * time.Second,
 		WriteTimeout:   20 * time.Second,
 		MaxHeaderBytes: 1 << 20,
